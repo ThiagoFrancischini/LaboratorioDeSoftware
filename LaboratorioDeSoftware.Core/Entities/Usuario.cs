@@ -51,7 +51,7 @@ namespace LaboratorioDeSoftware.Core.Entities
 
             if (string.IsNullOrEmpty(Senha))
             {
-                throw new ApplicationException("O Email precisa ser informado!");
+                throw new ApplicationException("A senha precisa ser informado!");
             }
         }
     }

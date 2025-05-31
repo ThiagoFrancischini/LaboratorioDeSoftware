@@ -72,12 +72,10 @@ namespace LaboratorioDeSoftware.Core.Services
             if (usuario == null)
                 throw new ArgumentNullException(nameof(usuario));
 
-            usuario.Validar();
-
-            if (await userRepository.ExisteEmail(usuario.Email))
+            if (await userRepository.ExisteEmail(usuario.Email, usuario.Id))
                 throw new ApplicationException("Este e-mail já está em uso por outro usuário!");
 
-            var user = await userRepository.Atualizar(usuario);
+            var user = await userRepository.AtualizarUsuario(usuario);
 
             await _context.SaveChangesAsync();
 

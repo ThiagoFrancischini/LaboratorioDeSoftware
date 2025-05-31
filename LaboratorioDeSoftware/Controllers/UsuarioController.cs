@@ -61,19 +61,17 @@ public class UsuarioController : Controller
     {
         if (id != usuario.Id) return NotFound();
 
-        if (ModelState.IsValid)
+        try
         {
-            try
-            {
-                await _usuarioService.AtualizarUsuario(usuario);
-                TempData["SuccessMessage"] = "Usuário atualizado com sucesso!";
-                return RedirectToAction(nameof(Index));
-            }
-            catch (ApplicationException ex)
-            {
-                ModelState.AddModelError(string.Empty, ex.Message);
-            }
+            await _usuarioService.AtualizarUsuario(usuario);
+            TempData["SuccessMessage"] = "Usuário atualizado com sucesso!";
+            return RedirectToAction(nameof(Index));
         }
+        catch (ApplicationException ex)
+        {
+            ModelState.AddModelError(string.Empty, ex.Message);
+        }
+        
         return View(usuario);
     }
     

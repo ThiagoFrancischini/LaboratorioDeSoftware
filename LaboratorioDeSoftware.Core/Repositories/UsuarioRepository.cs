@@ -34,17 +34,38 @@ namespace LaboratorioDeSoftware.Core.Repositories
             return await _context.Usuarios.AnyAsync(u => u.Email == email);
         }
 
+        public async Task<bool> ExisteEmail(string email, Guid userId)
+        {
+            return await _context.Usuarios.AnyAsync(u => u.Email == email && u.Id != userId);
+        }
+
         public async Task<Usuario> ProcurarPorId(Guid id)
         {
             return await _context.Usuarios.FindAsync(id);
         }
 
-        public async Task<Usuario> Atualizar(Usuario usuario)
+        public async Task<Usuario> AtualizarUsuario(Usuario usuarioAtualizado)
         {
-            _context.Usuarios.Update(usuario);
-            return usuario;
+            var usuarioExistente = await ProcurarPorId(usuarioAtualizado.Id);
+
+            if (usuarioExistente == null)
+                throw new ApplicationException("Usuário não encontrado!");
+
+            usuarioExistente.Nome = usuarioAtualizado.Nome;
+            usuarioExistente.Email = usuarioAtualizado.Email;
+            usuarioExistente.Telefone = usuarioAtualizado.Telefone;
+            usuarioExistente.Cargo = usuarioAtualizado.Cargo;
+            usuarioExistente.TipoUsuario = usuarioAtualizado.TipoUsuario;
+
+            if (!string.IsNullOrEmpty(usuarioAtualizado.Senha))
+            {
+                usuarioExistente.Senha = Convert.ToBase64String(Encoding.UTF8.GetBytes(usuarioAtualizado.Senha));
+            }
+
+            await _context.SaveChangesAsync();
+            return usuarioExistente;
         }
-        
+
         public void Remover(Usuario usuario)
         {                           
             _context.Usuarios.Remove(usuario);                        
