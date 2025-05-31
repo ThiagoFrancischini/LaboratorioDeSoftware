@@ -10,7 +10,12 @@ public class AppDbContext : DbContext
     public DbSet<Usuario> Usuarios { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {        
+    {
         modelBuilder.HasPostgresExtension("uuid-ossp");
+        
+         modelBuilder.Entity<Usuario>(entity =>
+        {
+            entity.HasKey(u => u.Id);        
+        });
     }
 }

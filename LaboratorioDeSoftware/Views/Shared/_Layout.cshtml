@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using LaboratorioDeSoftware.Tools;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,24 +15,108 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LaboratorioDeSoftware</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-flask"></i> LaboratorioDeSoftware
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    <!-- Menu principal -->
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item mx-2">
+                            <a class="nav-link text-dark nav-link-custom" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-house"></i> Home
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        
+                        @if (SessionTools.IsUsuarioAdmin(Context))
+                        {
+                            <li class="nav-item mx-2">
+                                <a class="nav-link text-dark nav-link-custom" asp-controller="Usuario" asp-action="Index">
+                                    <i class="bi bi-people"></i> Usuários
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                    
+                    <!-- Área do usuário -->
+                    <ul class="navbar-nav">
+                        @if (Context.Session.GetString("UsuarioId") != null)
+                        {
+                            <li class="nav-item mx-3 d-flex align-items-center">
+                                <span class="text-secondary">
+                                    <i class="bi bi-person-circle"></i> 
+                                    <span class="ms-1">@Context.Session.GetString("UsuarioNome")</span>
+                                </span>
+                            </li>
+                            
+                            <li class="nav-item mx-2">
+                                <form asp-controller="Login" asp-action="Logout" method="post">
+                                    <button type="submit" class="btn btn-sm btn-custom-logout">
+                                        <i class="bi bi-box-arrow-right"></i> Sair
+                                    </button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item mx-2">
+                                <a class="btn btn-sm btn-custom-login" asp-controller="Login" asp-action="Index">
+                                    <i class="bi bi-box-arrow-in-right"></i> Entrar
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
+    <style>    
+        .nav-link-custom {
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            padding: 6px 12px !important;
+        }
+        
+        .nav-link-custom:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+        }
+            
+        .btn-custom-login {
+            background-color: #0d6efd;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .btn-custom-login:hover {
+            background-color: #0b5ed7;
+            transform: scale(1.03);
+        }
+            
+        .btn-custom-logout {
+            background-color: transparent;
+            color: #dc3545;
+            border: 1.5px solid #dc3545;
+            transition: all 0.3s;
+        }
+        
+        .btn-custom-logout:hover {
+            background-color: #dc3545;
+            color: white;
+            transform: scale(1.03);
+        }
+            
+        .bi {
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+    </style>
+    
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -39,7 +125,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - LaboratorioDeSoftware - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - UCS - Laboratório de Software
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

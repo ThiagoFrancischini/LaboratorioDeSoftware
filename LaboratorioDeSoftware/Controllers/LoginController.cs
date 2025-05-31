@@ -23,16 +23,24 @@ namespace LaboratorioDeSoftware.Controllers
             try
             {
                 var usuario = await userService.Autenticar(email, senha);
-                
-                HttpContext.Session.SetString("UsuarioNome", usuario.Nome); 
+
+                HttpContext.Session.SetString("UsuarioId", usuario.Id.ToString());
+                HttpContext.Session.SetInt32("TipoUsuario", Convert.ToInt32(usuario.TipoUsuario));
+                HttpContext.Session.SetString("UsuarioNome", usuario.Nome);
 
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
                 ViewBag.Erro = ex.Message;
-                return View("Index"); 
+                return View("Index");
             }
-        }        
+        }  
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Login");
+        }      
     }
 }

@@ -1,7 +1,9 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using LaboratorioDeSoftware.Filters;
 
 namespace LaboratorioDeSoftware.Controllers;
+[AuthorizationFilter]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;

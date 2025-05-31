@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace LaboratorioDeSoftware.Core.Entities
 {
     public class Usuario
-    {
+    {        
         public Guid Id { get; set; }
         public string Nome { get; set; }
         public string Email { get; set; }
@@ -24,11 +25,16 @@ namespace LaboratorioDeSoftware.Core.Entities
                     return senha;
                 }
 
-                return Convert.ToBase64String(Encoding.UTF8.GetBytes(senha));
+                return senha;
             }
             set
             {
-                senha = value;
+                if (string.IsNullOrEmpty(value))
+                {
+                    return;
+                }
+
+                senha = Convert.ToBase64String(Encoding.UTF8.GetBytes(value));
             }
         }
         public void Validar()

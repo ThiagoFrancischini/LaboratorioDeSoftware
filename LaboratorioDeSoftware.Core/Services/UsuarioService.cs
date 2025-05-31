@@ -21,33 +21,45 @@ namespace LaboratorioDeSoftware.Core.Services
 
         public async Task<Usuario> Registrar(Usuario usuario)
         {
+            if (await userRepository.ExisteEmail(usuario.Email))
+            {
+                throw new ApplicationException("Já existe um usuário com este email");
+            }
+
             usuario.Id = Guid.NewGuid();
-            usuario.Validar();          
-            return await userRepository.Registrar(usuario);
+            usuario.Validar();
+            await userRepository.Registrar(usuario);
+            await _context.SaveChangesAsync();
+            return usuario;
         }
 
         public async Task<Usuario> Autenticar(string login, string senha)
-        {            
-            if(string.IsNullOrEmpty(login) || !login.Contains('@'))
+        {
+            if (string.IsNullOrEmpty(login) || !login.Contains('@'))
             {
                 throw new ApplicationException("Informe um Email válido!");
             }
 
-            if(string.IsNullOrEmpty(senha))
+            if (string.IsNullOrEmpty(senha))
             {
                 throw new ApplicationException("Informe uma senha válida!");
-            }   
+            }
 
-            senha = Convert.ToBase64String(Encoding.UTF8.GetBytes(senha));
+            senha = Convert.ToBase64String(Encoding.UTF8.GetBytes(senha));            
 
-            var usuario = await userRepository.Autenticar(login, senha);
+            var usuario = await userRepository.Autenticar(login, senha);            
 
-            if(usuario == null)
+            if (usuario == null)
             {
                 throw new ApplicationException("Usuário ou senha inválidos!");
             }
 
-            return usuario;            
+            return usuario;
+        }
+
+        public async Task<List<Usuario>> ProcurarTodos()
+        {
+            return await userRepository.ProcurarTodos();
         }
     }
 }
