@@ -1,0 +1,37 @@
+﻿@model IEnumerable<LaboratorioDeSoftware.Core.Entities.Laboratorio>
+
+@{
+    ViewData["Title"] = "Laboratórios";
+}
+
+<h1>Laboratórios</h1>
+
+<p>
+    <a asp-action="Cadastro" class="btn btn-primary">Adicionar Laboratório</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Localização</th>
+            <th>Responsável</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Nome)</td>
+                <td>@Html.DisplayFor(modelItem => item.Localizacao)</td>
+                <td>@Html.DisplayFor(modelItem => item.Responsavel.Nome)</td>
+                <td>@Html.DisplayFor(modelItem => item.Observacao)</td>
+                <td>
+                    <a asp-action="Editar" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-action="Deletar" asp-route-id="@item.Id">Remover</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

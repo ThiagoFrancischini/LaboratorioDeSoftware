@@ -1,0 +1,30 @@
+﻿@model LaboratorioDeSoftware.Core.Entities.Laboratorio
+
+@{
+    ViewData["Title"] = "Excluir Laboratório";
+}
+
+<h3 class="text-danger">Confirmar Exclusão</h3>
+<hr />
+
+<div class="alert alert-warning">
+    <p>Tem certeza que deseja excluir o laboratório <strong>@Model.Nome</strong>?</p>
+    <p class="mb-0"><strong>Localização:</strong> @Model.Localizacao</p>
+</div>
+
+<form asp-action="Deletar">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">
+        <i class="bi bi-trash"></i> Confirmar
+    </button>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Cancelar
+    </a>
+</form>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger mt-3">
+        @ViewBag.ErrorMessage
+    </div>
+}

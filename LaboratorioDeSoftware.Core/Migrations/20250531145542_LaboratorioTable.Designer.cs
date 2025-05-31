@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LaboratorioDeSoftware.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250530234013_CriarTabelaUsuarios")]
-    partial class CriarTabelaUsuarios
+    [Migration("20250531145542_LaboratorioTable")]
+    partial class LaboratorioTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,34 @@ namespace LaboratorioDeSoftware.Core.Migrations
 
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "uuid-ossp");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("LaboratorioDeSoftware.Core.Entities.Laboratorio", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Localizacao")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Observacao")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ResponsavelId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResponsavelId");
+
+                    b.ToTable("Laboratorios");
+                });
 
             modelBuilder.Entity("LaboratorioDeSoftware.Core.Entities.Usuario", b =>
                 {
@@ -58,6 +86,17 @@ namespace LaboratorioDeSoftware.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("LaboratorioDeSoftware.Core.Entities.Laboratorio", b =>
+                {
+                    b.HasOne("LaboratorioDeSoftware.Core.Entities.Usuario", "Responsavel")
+                        .WithMany()
+                        .HasForeignKey("ResponsavelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Responsavel");
                 });
 #pragma warning restore 612, 618
         }

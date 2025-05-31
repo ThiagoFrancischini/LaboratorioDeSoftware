@@ -40,6 +40,15 @@
                                 </a>
                             </li>
                         }
+
+                        @if (SessionTools.IsUsuarioAdmin(Context))
+                        {
+                            <li class="nav-item mx-2">
+                                <a class="nav-link text-dark nav-link-custom" asp-controller="Laboratorio" asp-action="Index">
+                                    <i class="bi bi-people"></i> Laboratórios
+                                </a>
+                            </li>
+                        }
                     </ul>
                     
                     <!-- Área do usuário -->
