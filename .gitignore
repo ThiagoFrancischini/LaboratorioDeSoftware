@@ -13,6 +13,9 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+# Ignora também variações como appsettings.Development.json
+LaboratorioDeSoftware/appsettings.Development.json
+
 # Mono auto generated files
 mono_crash.*
 
@@ -399,3 +402,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/LaboratorioDeSoftware/appsettings.Development.json
