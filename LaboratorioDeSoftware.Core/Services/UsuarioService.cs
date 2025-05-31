@@ -45,9 +45,9 @@ namespace LaboratorioDeSoftware.Core.Services
                 throw new ApplicationException("Informe uma senha válida!");
             }
 
-            senha = Convert.ToBase64String(Encoding.UTF8.GetBytes(senha));            
+            senha = Convert.ToBase64String(Encoding.UTF8.GetBytes(senha));
 
-            var usuario = await userRepository.Autenticar(login, senha);            
+            var usuario = await userRepository.Autenticar(login, senha);
 
             if (usuario == null)
             {
@@ -60,6 +60,42 @@ namespace LaboratorioDeSoftware.Core.Services
         public async Task<List<Usuario>> ProcurarTodos()
         {
             return await userRepository.ProcurarTodos();
+        }
+
+        public async Task<Usuario> ProcurarPorId(Guid id)
+        {
+            return await userRepository.ProcurarPorId(id);
+        }
+
+        public async Task<Usuario> AtualizarUsuario(Usuario usuario)
+        {
+            if (usuario == null)
+                throw new ArgumentNullException(nameof(usuario));
+
+            usuario.Validar();
+
+            if (await userRepository.ExisteEmail(usuario.Email))
+                throw new ApplicationException("Este e-mail já está em uso por outro usuário!");
+
+            var user = await userRepository.Atualizar(usuario);
+
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
+        public async Task RemoverUsuario(Guid id)
+        {
+            var usuario = await userRepository.ProcurarPorId(id);
+
+            if (usuario == null)
+            {
+                throw new ApplicationException("Usuário não encontrado!");
+            }
+
+            userRepository.Remover(usuario);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

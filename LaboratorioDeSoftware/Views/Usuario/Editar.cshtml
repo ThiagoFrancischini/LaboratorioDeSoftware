@@ -1,0 +1,79 @@
+@model LaboratorioDeSoftware.Core.Entities.Usuario
+
+@{
+    ViewData["Title"] = "Editar Usuário";
+}
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Editar Usuário</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Editar">
+            <input type="hidden" asp-for="Id" />
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Nome" class="control-label"></label>
+                        <input asp-for="Nome" class="form-control" />
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Telefone" class="control-label"></label>
+                        <input asp-for="Telefone" class="form-control" />
+                        <span asp-validation-for="Telefone" class="text-danger"></span>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Cargo" class="control-label"></label>
+                        <input asp-for="Cargo" class="form-control" />
+                        <span asp-validation-for="Cargo" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="TipoUsuario" class="control-label"></label>
+                        <select asp-for="TipoUsuario" class="form-control" 
+                                asp-items="Html.GetEnumSelectList<LaboratorioDeSoftware.Core.Entities.Enums.Enums.enTipoUsuario>()"></select>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Senha" class="control-label">Nova Senha (opcional)</label>
+                        <input asp-for="Senha" type="password" class="form-control" placeholder="Deixe em branco para manter a atual" />
+                        <span asp-validation-for="Senha" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                <a asp-action="Index" class="btn btn-secondary ml-2">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -33,5 +33,21 @@ namespace LaboratorioDeSoftware.Core.Repositories
         {
             return await _context.Usuarios.AnyAsync(u => u.Email == email);
         }
+
+        public async Task<Usuario> ProcurarPorId(Guid id)
+        {
+            return await _context.Usuarios.FindAsync(id);
+        }
+
+        public async Task<Usuario> Atualizar(Usuario usuario)
+        {
+            _context.Usuarios.Update(usuario);
+            return usuario;
+        }
+        
+        public void Remover(Usuario usuario)
+        {                           
+            _context.Usuarios.Remove(usuario);                        
+        }
     }
 }
