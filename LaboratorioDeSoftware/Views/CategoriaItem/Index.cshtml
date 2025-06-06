@@ -1,0 +1,33 @@
+@model IEnumerable<LaboratorioDeSoftware.Core.Entities.CategoriaItem>
+
+@{
+    ViewData["Title"] = "Categorias de Itens";
+}
+
+<h1>Categorias de Itens</h1>
+
+<p>
+    <a asp-action="Cadastro" class="btn btn-primary">Adicionar Categoria</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Descrição</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Descricao)</td>
+                <td>@(item.Ativo ? "Ativo" : "Inativo")</td>
+                <td>
+                    <a asp-action="Editar" asp-route-id="@item.Id">Editar</a>                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
