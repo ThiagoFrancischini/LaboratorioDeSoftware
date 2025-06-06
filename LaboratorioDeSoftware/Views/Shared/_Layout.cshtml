@@ -38,7 +38,7 @@
             @if (SessionTools.IsUsuarioAdmin(Context))
             {
                 <a class="nav-link mb-2" asp-controller="Usuario" asp-action="Index">
-                    <i class="bi bi-person-gear-fill"></i> Usuários
+                    <i class="bi bi-people-fill"></i> Usuários
                 </a>
                 <a class="nav-link mb-2" asp-controller="Laboratorio" asp-action="Index">
                     <i class="bi bi-building-fill"></i> Laboratórios
@@ -47,7 +47,16 @@
                     <i class="bi bi-box-seam-fill"></i> Itens
                 </a>
                 <a class="nav-link mb-2" asp-controller="CategoriaItem" asp-action="Index">
-                    <i class="bi bi-box-seam-fill"></i> Categorias
+                    <i class="bi bi-tags-fill"></i> Categorias
+                </a>
+                <a class="nav-link mb-2" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-tools"></i> Equipamentos
+                </a>
+                <a class="nav-link mb-2" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-speedometer2"></i> Calibrações
+                </a>
+                <a class="nav-link mb-2" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-gear-wide-connected"></i> Manutenções
                 </a>
             }
 
