@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +18,11 @@ namespace LaboratorioDeSoftware.Core.Entities.Enums
 
         public enum enTipoProduto
         {
+            [Description("Não se aplica")]
             NaoSeAplica = 0,
+            [Description("Analógico")]
             Analogico = 1,
+            [Description("Digital")]
             Digital = 2,
         }
 

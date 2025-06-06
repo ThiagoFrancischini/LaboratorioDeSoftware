@@ -1,4 +1,6 @@
 @model LaboratorioDeSoftware.Core.Entities.Produto
+@using static LaboratorioDeSoftware.Core.Entities.Enums.Enums
+@using LaboratorioDeSoftware.Tools;
 
 @{
     ViewData["Title"] = "Editar Item";
@@ -24,7 +26,7 @@
                 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label asp-for="MarcaFabricante" class="control-label"></label>
+                        <label class="control-label">Marca fabricante</label>
                         <input asp-for="MarcaFabricante" class="form-control" />
                         <span asp-validation-for="MarcaFabricante" class="text-danger"></span>
                     </div>
@@ -39,17 +41,27 @@
                         <span asp-validation-for="Modelo" class="text-danger"></span>
                     </div>
                 </div>
+
                 
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Tipo Produto</label>
+                        <select asp-for="TipoProduto" class="form-control" 
+                            asp-items="EnumHelper.ToSelectListWithDescriptions<enTipoProduto>()"></select>
+                        <span asp-validation-for="TipoProduto" class="text-danger"></span>
+                    </div>
+                </div>
+@*                 
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="CACalibracao" class="control-label"></label>
                         <input asp-for="CACalibracao" class="form-control" />
                         <span asp-validation-for="CACalibracao" class="text-danger"></span>
                     </div>
-                </div>
+                </div> *@
             </div>
 
-            <div class="row mt-3">
+            @* <div class="row mt-3">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="CAVerificacoes" class="control-label"></label>
@@ -65,9 +77,9 @@
                         <span asp-validation-for="CapaciadadeMedicao" class="text-danger"></span>
                     </div>
                 </div>
-            </div>
+            </div> *@
 
-            <div class="row mt-3">
+            @* <div class="row mt-3">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="PeriodicidadeCalibracao" class="control-label"></label>
@@ -85,25 +97,17 @@
                         <span asp-validation-for="PeriodicidadeVerificacaoIntermediaria" class="text-danger"></span>
                     </div>
                 </div>
-            </div>
+            </div> *@
 
             <div class="row mt-3">
-                <div class="col-md-6">
+                @* <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="ResolucaoDivisaoEscala" class="control-label"></label>
                         <input asp-for="ResolucaoDivisaoEscala" class="form-control" />
                         <span asp-validation-for="ResolucaoDivisaoEscala" class="text-danger"></span>
                     </div>
-                </div>
+                </div> *@
                 
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label asp-for="TipoProduto" class="control-label"></label>
-                        <select asp-for="TipoProduto" class="form-control"
-                                asp-items="Html.GetEnumSelectList<LaboratorioDeSoftware.Core.Entities.Enums.Enums.enTipoProduto>()"></select>
-                        <span asp-validation-for="TipoProduto" class="text-danger"></span>
-                    </div>
-                </div>
             </div>
 
             <div class="form-group mt-3">

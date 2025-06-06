@@ -1,4 +1,5 @@
 ﻿@using static LaboratorioDeSoftware.Core.Entities.Enums.Enums
+@using LaboratorioDeSoftware.Tools;
 @model LaboratorioDeSoftware.Core.Entities.Produto
 
 @{
@@ -18,7 +19,7 @@
         }
 
         <form asp-action="Cadastro">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>    
 
             <div class="form-group">
                 <label asp-for="Nome" class="control-label"></label>
@@ -27,7 +28,7 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="MarcaFabricante" class="control-label"></label>
+                <label class="control-label">Marca Fabricante</label>
                 <input asp-for="MarcaFabricante" class="form-control" />
                 <span asp-validation-for="MarcaFabricante" class="text-danger"></span>
             </div>
@@ -39,48 +40,9 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="CACalibracao" class="control-label"></label>
-                <input asp-for="CACalibracao" class="form-control" />
-                <span asp-validation-for="CACalibracao" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="CAVerificacoes" class="control-label"></label>
-                <input asp-for="CAVerificacoes" class="form-control" />
-                <span asp-validation-for="CAVerificacoes" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="CapaciadadeMedicao" class="control-label"></label>
-                <input asp-for="CapaciadadeMedicao" class="form-control" />
-                <span asp-validation-for="CapaciadadeMedicao" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label">Periodicidade da Calibração</label>
-                <select asp-for="PeriodicidadeCalibracao" class="form-control" 
-                        asp-items="Html.GetEnumSelectList<enPeriodicidade>()"></select>
-                <span asp-validation-for="PeriodicidadeCalibracao" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label">Periodicidade da Verificacao Intermediária</label>
-                <select asp-for="PeriodicidadeVerificacaoIntermediaria" class="form-control" 
-                        asp-items="Html.GetEnumSelectList<enPeriodicidade>()"></select>
-                <span asp-validation-for="PeriodicidadeVerificacaoIntermediaria" class="text-danger"></span>
-            </div>
-
-            
-            <div class="form-group">
-                <label asp-for="ResolucaoDivisaoEscala" class="control-label"></label>
-                <input asp-for="ResolucaoDivisaoEscala" class="form-control" />
-                <span asp-validation-for="ResolucaoDivisaoEscala" class="text-danger"></span>
-            </div>                                    
-
-            <div class="form-group">
                 <label class="control-label">Tipo Produto</label>
                 <select asp-for="TipoProduto" class="form-control" 
-                        asp-items="Html.GetEnumSelectList<enTipoProduto>()"></select>
+                        asp-items="EnumHelper.ToSelectListWithDescriptions<enTipoProduto>()"></select>
                 <span asp-validation-for="TipoProduto" class="text-danger"></span>
             </div>
             
