@@ -13,7 +13,7 @@ namespace LaboratorioDeSoftware.Core.Repositories
     {
         public async Task<List<Laboratorio>> ProcurarTodos()
         {
-            return await _context.Laboratorios.Include(x => x.Responsavel).ToListAsync();
+            return await _context.Laboratorios.Include(x => x.Responsavel).OrderBy(x => x.Nome).ToListAsync();
         }
 
         public async Task<Laboratorio> ProcurarPorId(Guid id)

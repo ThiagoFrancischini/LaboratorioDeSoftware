@@ -1,0 +1,148 @@
+@model LaboratorioDeSoftware.Core.Entities.Equipamento
+
+@{
+    ViewData["Title"] = "Cadastrar Equipamento";
+}
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Cadastrar Novo Equipamento</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Cadastro">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Numero_Serie" class="control-label">Número de Série*</label>
+                        <input asp-for="Numero_Serie" class="form-control" required />
+                        <span asp-validation-for="Numero_Serie" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Num_Patrimonio" class="control-label">Nº Patrimônio*</label>
+                        <input asp-for="Num_Patrimonio" class="form-control" required />
+                        <span asp-validation-for="Num_Patrimonio" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="ProdutoId" class="control-label">Produto*</label>
+                        <select asp-for="ProdutoId" class="form-control" asp-items="ViewBag.Produtos" required>
+                            <option value="">Selecione um produto</option>
+                        </select>
+                        <span asp-validation-for="ProdutoId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="LaboratorioId" class="control-label">Laboratório*</label>
+                        <select asp-for="LaboratorioId" class="form-control" asp-items="ViewBag.Laboratorios" required>
+                            <option value="">Selecione um laboratório</option>
+                        </select>
+                        <span asp-validation-for="LaboratorioId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CACalibracao" class="control-label">CA Calibração</label>
+                        <input asp-for="CACalibracao" class="form-control" />
+                        <span asp-validation-for="CACalibracao" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CAVerificacao" class="control-label">CA Verificação</label>
+                        <input asp-for="CAVerificacao" class="form-control" />
+                        <span asp-validation-for="CAVerificacao" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="PeriodicidadeCalibracao" class="control-label">Periodicidade Calibração (dias)*</label>
+                        <input asp-for="PeriodicidadeCalibracao" class="form-control" required />
+                        <span asp-validation-for="PeriodicidadeCalibracao" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="PeriodicidadeVerificacaoIntermediaria" class="control-label">Periodicidade Verificação (dias)*</label>
+                        <input asp-for="PeriodicidadeVerificacaoIntermediaria" class="form-control" required />
+                        <span asp-validation-for="PeriodicidadeVerificacaoIntermediaria" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="DataColocacaoUso" class="control-label">Data Colocação em Uso*</label>
+                        <input asp-for="DataColocacaoUso" type="date" class="form-control" required />
+                        <span asp-validation-for="DataColocacaoUso" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CapacidadeMedicao" class="control-label">Capacidade de Medição*</label>
+                        <input asp-for="CapacidadeMedicao" class="form-control" required />
+                        <span asp-validation-for="CapacidadeMedicao" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="ResolucaoDivisaoEscala" class="control-label">Resolução/Divisão de Escala*</label>
+                        <input asp-for="ResolucaoDivisaoEscala" class="form-control" required />
+                        <span asp-validation-for="ResolucaoDivisaoEscala" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="NumeroCertificadoCalibracao" class="control-label">Número Certificado Calibração</label>
+                        <input asp-for="NumeroCertificadoCalibracao" class="form-control" />
+                        <span asp-validation-for="NumeroCertificadoCalibracao" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mt-4 pt-2">
+                        <div class="form-check">
+                            <input asp-for="Disponivel" class="form-check-input" />
+                            <label asp-for="Disponivel" class="form-check-label">Disponível para uso</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <a asp-action="Index" class="btn btn-secondary ml-2">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -14,9 +14,10 @@ namespace LaboratorioDeSoftware.Core.Entities
         public Guid ResponsavelId { get; set; }
         public Usuario Responsavel { get; set; }
         public string Observacao { get;set; }
+        public ICollection<Equipamento> Equipamentos { get; set; } = new List<Equipamento>();
         public void Validar()
         {
-            if(Id == Guid.Empty)
+            if (Id == Guid.Empty)
             {
                 throw new ApplicationException("Informe um Id valido!");
             }

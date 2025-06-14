@@ -11,6 +11,7 @@ public class AppDbContext : DbContext
     public DbSet<Laboratorio> Laboratorios { get; set; }
     public DbSet<Produto> Produtos { get; set; }
     public DbSet<CategoriaItem> Categorias { get; set; }
+    public DbSet<Equipamento> Equipamentos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,5 +31,27 @@ public class AppDbContext : DbContext
                   .HasForeignKey(l => l.ResponsavelId)
                   .OnDelete(DeleteBehavior.Restrict);
         });
+
+        modelBuilder.Entity<Equipamento>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+                        
+            entity.HasOne(e => e.Produto)
+                .WithMany(p => p.Equipamentos)
+                .HasForeignKey(e => e.ProdutoId)
+                .OnDelete(DeleteBehavior.Restrict);
+                            
+            entity.HasOne(e => e.Laboratorio)
+                .WithMany(l => l.Equipamentos)
+                .HasForeignKey(e => e.LaboratorioId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+        
+    }
+    
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Properties<DateTime>()
+            .HaveColumnType("timestamp without time zone");
     }
 }

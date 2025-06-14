@@ -1,0 +1,40 @@
+@model IEnumerable<LaboratorioDeSoftware.Core.Entities.Equipamento>
+
+@{
+    ViewData["Title"] = "Equipamentos";
+}
+
+<h1>Equipamentos</h1>
+
+<p>
+    <a asp-action="Cadastro" class="btn btn-primary">Adicionar Equipamento</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Número de Série</th>
+            <th>Nº Patrimônio</th>
+            <th>Produto</th>
+            <th>Laboratório</th>
+            <th>Disponível</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Numero_Serie)</td>
+                <td>@Html.DisplayFor(modelItem => item.Num_Patrimonio)</td>
+                <td>@Html.DisplayFor(modelItem => item.Produto.Nome)</td>
+                <td>@Html.DisplayFor(modelItem => item.Laboratorio.Nome)</td>
+                <td>@(item.Disponivel ? "Sim" : "Não")</td>
+                <td>
+                    <a asp-action="Editar" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-action="Deletar" asp-route-id="@item.Id">Remover</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

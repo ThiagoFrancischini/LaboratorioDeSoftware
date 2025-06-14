@@ -16,7 +16,7 @@ namespace LaboratorioDeSoftware.Core.Entities
         // public string ResolucaoDivisaoEscala { get; set; }
         public enTipoProduto TipoProduto { get; set; }
         public string Observacoes { get; set; }
-
+        public ICollection<Equipamento> Equipamentos { get; set; } = new List<Equipamento>();
         public void Validar()
         {
             if (Id == Guid.Empty)

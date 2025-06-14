@@ -8,7 +8,7 @@ namespace ProdutoDeSoftware.Core.Repositories
     {
         public async Task<List<Produto>> ProcurarTodos()
         {
-            return await _context.Produtos.ToListAsync();
+            return await _context.Produtos.OrderBy(x => x.Modelo).ToListAsync();
         }
 
         public async Task<Produto> ProcurarPorId(Guid id)
