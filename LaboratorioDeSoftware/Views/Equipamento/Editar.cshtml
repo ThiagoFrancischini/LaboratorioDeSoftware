@@ -78,6 +78,23 @@
             </div>
 
             <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CapacidadeMedicao" class="control-label">Capacidade de Medição*</label>
+                        <input asp-for="CapacidadeMedicao" class="form-control" required />
+                        <span asp-validation-for="CapacidadeMedicao" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="ResolucaoDivisaoEscala" class="control-label">Resolução/Divisão de Escala*</label>
+                        <input asp-for="ResolucaoDivisaoEscala" class="form-control" required />
+                        <span asp-validation-for="ResolucaoDivisaoEscala" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
                 <div class="col-md-4">
                     <div class="form-group">
                         <label asp-for="PeriodicidadeCalibracao" class="control-label">Periodicidade Calibração (dias)</label>

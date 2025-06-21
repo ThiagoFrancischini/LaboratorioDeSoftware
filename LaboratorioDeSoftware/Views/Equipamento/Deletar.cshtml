@@ -1,0 +1,19 @@
+﻿@using LaboratorioDeSoftware.Core.Entities;
+@model Equipamento
+
+<h3 class="text-danger">Confirmar Exclusão</h3>
+<hr />
+
+<div class="alert alert-warning">
+    <p>Tem certeza que deseja excluir <strong>@Model.Produto.Nome |  Número de série: @Model.Numero_Serie</strong>?</p>
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">
+        <i class="bi bi-trash"></i> Confirmar
+    </button>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Cancelar
+    </a>
+</form>

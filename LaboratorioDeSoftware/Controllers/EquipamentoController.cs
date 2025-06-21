@@ -113,7 +113,7 @@ namespace LaboratorioDeSoftware.Controllers
             }
         }
 
-        [HttpPost, ActionName("Deletar")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletarConfirmado(Guid id)
         {
