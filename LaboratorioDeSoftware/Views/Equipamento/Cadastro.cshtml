@@ -133,6 +133,22 @@
                 </div>
             </div>
 
+            <div class="row mt-3">
+                <div class="col-12">
+                    <h5>Tags de Identificação</h5>
+                    <div class="form-group">
+                        <div id="tags-container" class="mb-2">
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="tag-input" class="form-control" placeholder="Digite uma tag e clique em Adicionar">
+                            <div class="input-group-append">
+                                <button type="button" id="add-tag-btn" class="btn btn-outline-secondary">Adicionar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group mt-4">
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
                 <a asp-action="Index" class="btn btn-secondary ml-2">Cancelar</a>
@@ -145,4 +161,62 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addTagBtn = document.getElementById('add-tag-btn');
+            const tagInput = document.getElementById('tag-input');
+            const tagsContainer = document.getElementById('tags-container');
+            let tagIndex = 0;
+
+            addTagBtn.addEventListener('click', function () {
+                const tagText = tagInput.value.trim();
+                if (tagText) {
+                    // Cria o elemento visual da tag (badge)
+                    const tagElement = document.createElement('span');
+                    // <-- MUDANÇA 1: Usando 'badge-light' para fundo claro e 'text-dark' para texto escuro.
+                    // <-- MUDANÇA 2: Adicionando classes de flexbox para alinhar o texto e o botão.
+                    tagElement.className = 'badge badge-light text-dark mr-2 p-2 d-inline-flex align-items-center';
+
+                    const textNode = document.createTextNode(tagText);
+
+                    // Cria o botão de remover, agora com estilo de perigo (vermelho)
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    // <-- MUDANÇA 3: Usando classes de botão do Bootstrap para um visual melhor.
+                    removeBtn.className = 'btn btn-danger btn-sm ml-2 p-0 px-2';
+                    removeBtn.innerHTML = '<span aria-hidden="true">&times;</span>'; // O '×' para fechar
+
+                    // Cria o input hidden que será enviado para o controller (sem mudanças aqui)
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = `Tags[${tagIndex}].Tag`;
+                    hiddenInput.value = tagText;
+
+                    // Monta a tag com o texto, o botão e o input escondido
+                    tagElement.appendChild(textNode);
+                    tagElement.appendChild(removeBtn);
+                    tagElement.appendChild(hiddenInput);
+
+                    tagsContainer.appendChild(tagElement);
+
+                    // Evento para remover a tag
+                    removeBtn.addEventListener('click', function() {
+                        tagsContainer.removeChild(tagElement);
+                    });
+
+                    tagInput.value = '';
+                    tagInput.focus();
+                    tagIndex++;
+                }
+            });
+
+            tagInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addTagBtn.click();
+                }
+            });
+        });
+    </script>
 }

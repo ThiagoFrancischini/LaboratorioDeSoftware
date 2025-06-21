@@ -19,12 +19,22 @@ namespace LaboratorioDeSoftware.Core.Repositories
             return await _context.Equipamentos
                 .Include(e => e.Produto)
                 .Include(e => e.Laboratorio)
+                .Include(e => e.Tags)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<Equipamento> Inserir(Equipamento equipamento)
         {
             await _context.Equipamentos.AddAsync(equipamento);
+
+            if(equipamento.Tags != null)
+            {
+                foreach(var tag in equipamento.Tags)
+                {
+                    await _context.TagsEquipamento.AddAsync(tag);
+                }
+            }
+
             return equipamento;
         }
 

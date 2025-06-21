@@ -12,6 +12,7 @@ public class AppDbContext : DbContext
     public DbSet<Produto> Produtos { get; set; }
     public DbSet<CategoriaItem> Categorias { get; set; }
     public DbSet<Equipamento> Equipamentos { get; set; }
+    public DbSet<TagEquipamento> TagsEquipamento { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -46,7 +47,12 @@ public class AppDbContext : DbContext
                 .HasForeignKey(e => e.LaboratorioId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
-        
+
+        modelBuilder.Entity<TagEquipamento>()
+            .HasOne(t => t.Equipamento)
+            .WithMany(e => e.Tags)      
+            .HasForeignKey(t => t.EquipamentoId) 
+            .OnDelete(DeleteBehavior.Cascade);
     }
     
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

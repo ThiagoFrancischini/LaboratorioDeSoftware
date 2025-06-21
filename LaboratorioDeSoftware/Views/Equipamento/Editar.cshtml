@@ -129,6 +129,34 @@
                 <span asp-validation-for="CapacidadeMedicao" class="text-danger"></span>
             </div>
 
+            <div class="row mt-3">
+                <div class="col-12">
+                    <h5>Tags de Identificação</h5>
+                    <div class="form-group">
+                        <div id="tags-container" class="mb-2">
+                            @for (var i = 0; i < Model.Tags.Count; i++)
+                            {
+                                <span class="badge badge-light text-dark mr-2 p-2 d-inline-flex align-items-center">
+                                    @Model.Tags.ElementAt(i).Tag
+                                    <button type="button" class="btn btn-danger btn-sm ml-2 p-0 px-2 remove-tag-btn" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <input type="hidden" name="Tags[@i].Id" value="@Model.Tags.ElementAt(i).Id" />
+                                    <input type="hidden" name="Tags[@i].Tag" value="@Model.Tags.ElementAt(i).Tag" />
+                                    <input type="hidden" name="Tags[@i].EquipamentoId" value="@Model.Tags.ElementAt(i).EquipamentoId" />
+                                </span>
+                            }
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="tag-input" class="form-control" placeholder="Digite uma nova tag e clique em Adicionar">
+                            <div class="input-group-append">
+                                <button type="button" id="add-tag-btn" class="btn btn-outline-secondary">Adicionar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group mt-4">
                 <button type="submit" class="btn btn-primary">Salvar Alterações</button>
                 <a asp-action="Index" class="btn btn-secondary ml-2">Voltar</a>
@@ -141,4 +169,84 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addTagBtn = document.getElementById('add-tag-btn');
+            const tagInput = document.getElementById('tag-input');
+            const tagsContainer = document.getElementById('tags-container');
+
+            function reindexTags() {
+                const tagElements = tagsContainer.querySelectorAll('.badge');
+                tagElements.forEach((tagElement, index) => {
+                    const hiddenInputs = tagElement.querySelectorAll('input[type="hidden"]');
+                    hiddenInputs.forEach(input => {
+                        const oldName = input.name;
+                        const newName = oldName.replace(/\[\d+\]/, `[${index}]`);
+                        input.name = newName;
+                    });
+                });
+            }
+
+            function attachRemoveEvent(button) {
+                button.addEventListener('click', function(e) {
+                    e.target.closest('.badge').remove();
+                    reindexTags();
+                });
+            }
+
+            document.querySelectorAll('.remove-tag-btn').forEach(attachRemoveEvent);
+
+            function addNewTag() {
+                const tagText = tagInput.value.trim();
+                if (tagText) {
+                    const tagIndex = tagsContainer.querySelectorAll('.badge').length;
+
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'badge badge-light text-dark mr-2 p-2 d-inline-flex align-items-center';
+
+                    const textNode = document.createTextNode(tagText);
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    removeBtn.className = 'btn btn-danger btn-sm ml-2 p-0 px-2';
+                    removeBtn.innerHTML = '<span aria-hidden="true">&times;</span>';
+                    attachRemoveEvent(removeBtn);
+
+                    const idInput = document.createElement('input');
+                    idInput.type = 'hidden';
+                    idInput.name = `Tags[${tagIndex}].Id`;
+                    idInput.value = '00000000-0000-0000-0000-000000000000';
+
+                    const tagInputHidden = document.createElement('input');
+                    tagInputHidden.type = 'hidden';
+                    tagInputHidden.name = `Tags[${tagIndex}].Tag`;
+                    tagInputHidden.value = tagText;
+                    const equipamentoIdInput = document.createElement('input');
+                    equipamentoIdInput.type = 'hidden';
+                    equipamentoIdInput.name = `Tags[${tagIndex}].EquipamentoId`;
+                    equipamentoIdInput.value = document.querySelector('input[name="Id"]').value;
+
+                    tagElement.appendChild(textNode);
+                    tagElement.appendChild(removeBtn);
+                    tagElement.appendChild(idInput);
+                    tagElement.appendChild(tagInputHidden);
+                    tagElement.appendChild(equipamentoIdInput);
+
+                    tagsContainer.appendChild(tagElement);
+
+                    tagInput.value = '';
+                    tagInput.focus();
+                }
+            }
+
+            addTagBtn.addEventListener('click', addNewTag);
+            tagInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addNewTag();
+                }
+            });
+        });
+    </script>
 }

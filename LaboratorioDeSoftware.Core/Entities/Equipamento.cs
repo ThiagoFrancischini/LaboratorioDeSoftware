@@ -18,5 +18,6 @@ namespace LaboratorioDeSoftware.Core.Entities
         public DateTime DataColocacaoUso { get; set; }
         public long NumeroCertificadoCalibracao { get; set; }
         public bool Disponivel { get; set;  }
+        public virtual ICollection<TagEquipamento> Tags { get; set; } = new List<TagEquipamento>();
     }   
 }
