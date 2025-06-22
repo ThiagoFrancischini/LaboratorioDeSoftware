@@ -41,5 +41,13 @@ namespace LaboratorioDeSoftware.Core.Entities.Enums
             Bianual = 10,
             Trianual = 11,
         }
+
+        public enum enStatusCalibracoes
+        {
+            [Description("Reprovado")]
+            Reprovado = 0,
+            [Description("Aprovado")]
+            Aprovado = 1,
+        }
     }
 }

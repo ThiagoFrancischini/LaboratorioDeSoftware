@@ -1,0 +1,40 @@
+@model IEnumerable<LaboratorioDeSoftware.Core.Entities.Calibracao>
+
+@{
+    ViewData["Title"] = "Calibracoes";
+}
+
+<h1>Calibrações</h1>
+
+<p>
+    <a asp-action="Cadastro" class="btn btn-primary">Cadastrar Calibração</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Data Calibração</th>
+            <th>Equipamento</th>
+            <th>NumeroSolicitacao</th>
+            <th>Status</th>
+            <th>Observações</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.DataCalibracao)</td>
+                <td>@Html.DisplayFor(modelItem => item.Equipamento.Nome)</td>
+                <td>@Html.DisplayFor(modelItem => item.NumeroSolicitacao)</td>
+                <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                <td>@Html.DisplayFor(modelItem => item.Observacoes)</td>
+                <td>
+                    <a asp-action="Editar" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-action="Deletar" asp-route-id="@item.Id">Remover</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

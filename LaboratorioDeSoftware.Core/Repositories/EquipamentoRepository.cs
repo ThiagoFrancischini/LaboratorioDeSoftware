@@ -20,6 +20,7 @@ namespace LaboratorioDeSoftware.Core.Repositories
                 .Include(e => e.Produto)
                 .Include(e => e.Laboratorio)
                 .Include(e => e.Tags)
+                .Include(e => e.Calibracoes)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 

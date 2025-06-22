@@ -1,0 +1,136 @@
+@using LaboratorioDeSoftware.Tools
+@using static LaboratorioDeSoftware.Core.Entities.Enums.Enums
+@model LaboratorioDeSoftware.Core.Entities.Calibracao;
+
+@{
+    ViewData["Title"] = "Editar Calibração";
+}
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Editar Calibração</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Editar">
+            <input type="hidden" asp-for="Id" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
+
+            <div class="row">                
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="EquipamentoId" class="control-label">Equipamento*</label>
+                        <select asp-for="EquipamentoId" class="form-control" asp-items="ViewBag.Equipamentos" required>
+                            <option value="">Selecione um equipamento</option>
+                        </select>
+                        <span asp-validation-for="EquipamentoId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Erro" class="control-label">Erro</label>
+                        <input asp-for="Erro" class="form-control" required />
+                        <span asp-validation-for="Erro" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Incerteza" class="control-label">Incerteza</label>
+                        <input asp-for="Incerteza" class="form-control" required />
+                        <span asp-validation-for="Incerteza" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="NumeroSolicitacao" class="control-label">Número Solicitação</label>
+                        <input asp-for="NumeroSolicitacao" class="form-control" required />
+                        <span asp-validation-for="NumeroSolicitacao" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="DataCalibracao" class="control-label">Data Calibração</label>
+                        <input asp-for="DataCalibracao" type="date" class="form-control" required />
+                        <span asp-validation-for="DataCalibracao" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-3">            
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Custo" class="control-label">Custo</label>
+                        <input asp-for="Custo" class="form-control" required />
+                        <span asp-validation-for="Custo" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mt-4 pt-2">
+                        <div class="form-check">
+                            <input asp-for="CS" class="form-check-input" />
+                            <label asp-for="CS" class="form-check-label">CS</label>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+
+            <div class="row mt-3">            
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="GrandezaParametro" class="control-label">Grandeza Parâmetro</label>
+                        <input asp-for="GrandezaParametro" class="form-control" required />
+                        <span asp-validation-for="GrandezaParametro" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>            
+
+            <div class="row mt-3">            
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Observacoes" class="control-label">Observações</label>
+                        <input asp-for="Observacoes" class="form-control" required />
+                        <span asp-validation-for="Observacoes" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label">Status da Calibração</label>
+                        <select asp-for="Status" class="form-control" 
+                            asp-items="EnumHelper.ToSelectListWithDescriptions<enStatusCalibracoes>()"></select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                <a asp-action="Index" class="btn btn-secondary ml-2">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
