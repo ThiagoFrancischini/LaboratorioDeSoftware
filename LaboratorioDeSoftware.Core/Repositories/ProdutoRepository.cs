@@ -33,12 +33,6 @@ namespace ProdutoDeSoftware.Core.Repositories
             produtoExistente.Nome = produto.Nome;
             produtoExistente.MarcaFabricante = produto.MarcaFabricante;
             produtoExistente.Modelo = produto.Modelo;
-            // produtoExistente.CACalibracao = produto.CACalibracao;
-            // produtoExistente.CAVerificacoes = produto.CAVerificacoes;
-            // produtoExistente.CapaciadadeMedicao = produto.CapaciadadeMedicao;
-            // produtoExistente.PeriodicidadeCalibracao = produto.PeriodicidadeCalibracao;
-            // produtoExistente.PeriodicidadeVerificacaoIntermediaria = produto.PeriodicidadeVerificacaoIntermediaria;
-            // produtoExistente.ResolucaoDivisaoEscala = produto.ResolucaoDivisaoEscala;
             produtoExistente.TipoProduto = produto.TipoProduto;
             produtoExistente.Observacoes = produto.Observacoes;
 

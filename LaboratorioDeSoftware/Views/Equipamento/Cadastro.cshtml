@@ -20,14 +20,21 @@
             }
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Nome" class="control-label">Nome*</label>
+                        <input asp-for="Nome" class="form-control" required />
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
                     <div class="form-group">
                         <label asp-for="Numero_Serie" class="control-label">Número de Série*</label>
                         <input asp-for="Numero_Serie" class="form-control" required />
                         <span asp-validation-for="Numero_Serie" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label asp-for="Num_Patrimonio" class="control-label">Nº Patrimônio*</label>
                         <input asp-for="Num_Patrimonio" class="form-control" required />

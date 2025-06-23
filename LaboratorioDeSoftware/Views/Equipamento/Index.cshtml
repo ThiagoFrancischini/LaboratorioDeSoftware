@@ -13,6 +13,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>Nome</th>
             <th>Número de Série</th>
             <th>Nº Patrimônio</th>
             <th>Produto</th>
@@ -25,14 +26,17 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>@Html.DisplayFor(modelItem => item.Nome)</td>
                 <td>@Html.DisplayFor(modelItem => item.Numero_Serie)</td>
                 <td>@Html.DisplayFor(modelItem => item.Num_Patrimonio)</td>
                 <td>@Html.DisplayFor(modelItem => item.Produto.Nome)</td>
                 <td>@Html.DisplayFor(modelItem => item.Laboratorio.Nome)</td>
                 <td>@(item.Disponivel ? "Sim" : "Não")</td>
                 <td>
+                    <a asp-action="Detalhes" asp-route-id="@item.Id">Visualizar</a> |
                     <a asp-action="Editar" asp-route-id="@item.Id">Editar</a> |
                     <a asp-action="Deletar" asp-route-id="@item.Id">Remover</a>
+                    
                 </td>
             </tr>
         }

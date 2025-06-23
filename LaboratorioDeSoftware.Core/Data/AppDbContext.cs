@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
     public DbSet<CategoriaItem> Categorias { get; set; }
     public DbSet<Equipamento> Equipamentos { get; set; }
     public DbSet<TagEquipamento> TagsEquipamento { get; set; }
+    public DbSet<Calibracao> Calibracoes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -36,12 +37,12 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Equipamento>(entity =>
         {
             entity.HasKey(e => e.Id);
-                        
+
             entity.HasOne(e => e.Produto)
                 .WithMany(p => p.Equipamentos)
                 .HasForeignKey(e => e.ProdutoId)
                 .OnDelete(DeleteBehavior.Restrict);
-                            
+
             entity.HasOne(e => e.Laboratorio)
                 .WithMany(l => l.Equipamentos)
                 .HasForeignKey(e => e.LaboratorioId)
@@ -50,9 +51,15 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<TagEquipamento>()
             .HasOne(t => t.Equipamento)
-            .WithMany(e => e.Tags)      
-            .HasForeignKey(t => t.EquipamentoId) 
+            .WithMany(e => e.Tags)
+            .HasForeignKey(t => t.EquipamentoId)
             .OnDelete(DeleteBehavior.Cascade);
+            
+        modelBuilder.Entity<Calibracao>()
+            .HasOne(c => c.Equipamento)
+            .WithMany(e => e.Calibracoes)      
+            .HasForeignKey(t => t.EquipamentoId) 
+            .OnDelete(DeleteBehavior.Restrict);
     }
     
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

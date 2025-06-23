@@ -25,6 +25,28 @@ namespace LaboratorioDeSoftware.Controllers
             return View(equipamentos);
         }
 
+        public async Task<IActionResult> Detalhes(Guid id)
+        {
+            try
+            {
+                var equipamento = await _equipamentoService.ProcurarPorId(id);
+                if (equipamento == null)
+                {
+                    return NotFound();
+                }
+
+                await CarregarViewBags();
+                return View(equipamento);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Erro ao carregar equipamento: " + ex.Message;
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+
         public async Task<IActionResult> Cadastro()
         {
             await CarregarViewBags();

@@ -1,0 +1,192 @@
+@using LaboratorioDeSoftware.Tools
+@using static LaboratorioDeSoftware.Core.Entities.Enums.Enums
+@model LaboratorioDeSoftware.Core.Entities.Calibracao;
+
+@{
+    ViewData["Title"] = "Cadastrar Calibração";
+}
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Cadastrar nova Calibração</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Cadastro">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
+
+            <div class="row">                
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="EquipamentoId" class="control-label">Equipamento*</label>
+                        <select asp-for="EquipamentoId" class="form-control" asp-items="ViewBag.Equipamentos" required>
+                            <option value="">Selecione um equipamento</option>
+                        </select>
+                        <span asp-validation-for="EquipamentoId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Erro" class="control-label">Erro</label>
+                            <input asp-for="Erro" class="form-control" required />
+                            <span asp-validation-for="Erro" class="text-danger"></span>
+                        </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Incerteza" class="control-label">Incerteza</label>
+                        <input asp-for="Incerteza" class="form-control" required />
+                        <span asp-validation-for="Incerteza" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="NumeroSolicitacao" class="control-label">NumeroSolicitacao</label>
+                            <input asp-for="NumeroSolicitacao" class="form-control" required />
+                            <span asp-validation-for="NumeroSolicitacao" class="text-danger"></span>
+                        </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="DataCalibracao" class="control-label">Data Calibração</label>
+                        <input asp-for="DataCalibracao" class="form-control" required />
+                        <span asp-validation-for="DataCalibracao" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">            
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Custo" class="control-label">Custo</label>
+                        <input asp-for="Custo" class="form-control" required />
+                        <span asp-validation-for="Custo" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group mt-4 pt-2">
+                        <div class="form-check">
+                            <input asp-for="CS" class="form-check-input" />
+                            <label asp-for="CS" class="form-check-label">CS</label>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+
+            <div class="row">            
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="GrandezaParametro" class="control-label">Grandeza Parametro</label>
+                        <input asp-for="GrandezaParametro" class="form-control" required />
+                        <span asp-validation-for="GrandezaParametro" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>            
+
+            <div class="row">            
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Observacoes" class="control-label">Observacoes</label>
+                        <input asp-for="Observacoes" class="form-control" required />
+                        <span asp-validation-for="Observacoes" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="row">
+                <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Status" class="control-label">Status da Calibração</label>
+                            <select asp-for="Status" class="form-control" 
+                                asp-items="EnumHelper.ToSelectListWithDescriptions<enStatusCalibracoes>()"></select>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <a asp-action="Index" class="btn btn-secondary ml-2">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addTagBtn = document.getElementById('add-tag-btn');
+            const tagInput = document.getElementById('tag-input');
+            const tagsContainer = document.getElementById('tags-container');
+            let tagIndex = 0;
+
+            addTagBtn.addEventListener('click', function () {
+                const tagText = tagInput.value.trim();
+                if (tagText) {
+                    // Cria o elemento visual da tag (badge)
+                    const tagElement = document.createElement('span');
+                    // <-- MUDANÇA 1: Usando 'badge-light' para fundo claro e 'text-dark' para texto escuro.
+                    // <-- MUDANÇA 2: Adicionando classes de flexbox para alinhar o texto e o botão.
+                    tagElement.className = 'badge badge-light text-dark mr-2 p-2 d-inline-flex align-items-center';
+
+                    const textNode = document.createTextNode(tagText);
+
+                    // Cria o botão de remover, agora com estilo de perigo (vermelho)
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    // <-- MUDANÇA 3: Usando classes de botão do Bootstrap para um visual melhor.
+                    removeBtn.className = 'btn btn-danger btn-sm ml-2 p-0 px-2';
+                    removeBtn.innerHTML = '<span aria-hidden="true">&times;</span>'; // O '×' para fechar
+
+                    // Cria o input hidden que será enviado para o controller (sem mudanças aqui)
+                    const hiddenInput = document.createElement('input');
+                    hiddenInput.type = 'hidden';
+                    hiddenInput.name = `Tags[${tagIndex}].Tag`;
+                    hiddenInput.value = tagText;
+
+                    // Monta a tag com o texto, o botão e o input escondido
+                    tagElement.appendChild(textNode);
+                    tagElement.appendChild(removeBtn);
+                    tagElement.appendChild(hiddenInput);
+
+                    tagsContainer.appendChild(tagElement);
+
+                    // Evento para remover a tag
+                    removeBtn.addEventListener('click', function() {
+                        tagsContainer.removeChild(tagElement);
+                    });
+
+                    tagInput.value = '';
+                    tagInput.focus();
+                    tagIndex++;
+                }
+            });
+
+            tagInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addTagBtn.click();
+                }
+            });
+        });
+    </script>
+}
