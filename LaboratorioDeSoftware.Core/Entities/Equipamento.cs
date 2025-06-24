@@ -21,5 +21,6 @@ namespace LaboratorioDeSoftware.Core.Entities
         public bool Disponivel { get; set; }
         public virtual ICollection<TagEquipamento> Tags { get; set; } = new List<TagEquipamento>();
         public virtual ICollection<Calibracao> Calibracoes { get; set; } = new List<Calibracao>();
+        public virtual ICollection<ManutencaoCorretiva> Manutencoes { get; set; } = new List<ManutencaoCorretiva>();
     }   
 }

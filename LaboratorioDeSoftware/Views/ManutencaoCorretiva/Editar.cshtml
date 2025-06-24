@@ -1,0 +1,88 @@
+﻿@model LaboratorioDeSoftware.Core.Entities.ManutencaoCorretiva
+
+@{
+    ViewData["Title"] = "Editar Manutenção Corretiva";
+}
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">@ViewData["Title"]</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Editar">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @if (ViewBag.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewBag.ErrorMessage
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="EquipamentoId" class="control-label">Equipamento*</label>
+                        <select asp-for="EquipamentoId" class="form-control" asp-items="ViewBag.Equipamentos" required>
+                            <option value="">Selecione um equipamento</option>
+                        </select>
+                        <span asp-validation-for="EquipamentoId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="DataProblemaApresentado" class="control-label">Data do Problema*</label>
+                        <input asp-for="DataProblemaApresentado" type="date" class="form-control" required />
+                        <span asp-validation-for="DataProblemaApresentado" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="DataRetorno" class="control-label">Data do Retorno</label>
+                        <input asp-for="DataRetorno" type="date" class="form-control" />
+                        <span asp-validation-for="DataRetorno" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-3">
+                <label asp-for="ProblemaApresentado" class="control-label">Problema Apresentado*</label>
+                <textarea asp-for="ProblemaApresentado" class="form-control" rows="3" required></textarea>
+                <span asp-validation-for="ProblemaApresentado" class="text-danger"></span>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="EstadoRetorno" class="control-label">Estado de Retorno</label>
+                        <input asp-for="EstadoRetorno" class="form-control" />
+                        <span asp-validation-for="EstadoRetorno" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Valor" class="control-label">Valor</label>
+                        <input asp-for="Valor" class="form-control" />
+                        <span asp-validation-for="Valor" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                <a asp-action="Index" class="btn btn-secondary ml-2">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

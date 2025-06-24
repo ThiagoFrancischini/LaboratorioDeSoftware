@@ -1,0 +1,40 @@
+﻿@model LaboratorioDeSoftware.Core.Entities.ConfiguracaoSistema;
+
+@{
+    ViewData["Title"] = "Configurações Gerais do Sistema";
+}
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">@ViewData["Title"]</h4>
+    </div>
+    <div class="card-body">
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        <form asp-action="Index" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="DiasDeAntecedenciaAvisos" class="control-label"></label>
+                        <input asp-for="DiasDeAntecedenciaAvisos" class="form-control" type="number" />
+                        <span asp-validation-for="DiasDeAntecedenciaAvisos" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">Salvar Configurações</button>
+            </div>
+        </form>
+    </div>
+</div>

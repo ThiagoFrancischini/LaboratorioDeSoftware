@@ -26,7 +26,12 @@ namespace LaboratorioDeSoftware.Controllers
         public async Task<IActionResult> Cadastro()
         {
             await CarregarViewBags();
-            return View(new Calibracao ());
+            return View(new Calibracao
+            {
+                DataCalibracao = DateTime.Now,
+                DataAcompanhamento = DateTime.Now,
+                DataSolicitacao = DateTime.Now,
+            });
         }
 
         [HttpPost]

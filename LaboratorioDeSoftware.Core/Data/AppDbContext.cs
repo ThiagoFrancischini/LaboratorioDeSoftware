@@ -14,6 +14,8 @@ public class AppDbContext : DbContext
     public DbSet<Equipamento> Equipamentos { get; set; }
     public DbSet<TagEquipamento> TagsEquipamento { get; set; }
     public DbSet<Calibracao> Calibracoes { get; set; }
+    public DbSet<ManutencaoCorretiva> ManutencoesCorretivas { get; set; }
+    public DbSet<ConfiguracaoSistema> ConfiguracoesSistema { get; set; } 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -59,6 +61,12 @@ public class AppDbContext : DbContext
             .HasOne(c => c.Equipamento)
             .WithMany(e => e.Calibracoes)      
             .HasForeignKey(t => t.EquipamentoId) 
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<ManutencaoCorretiva>()
+            .HasOne(c => c.Equipamento)
+            .WithMany(e => e.Manutencoes)
+            .HasForeignKey(t => t.EquipamentoId)
             .OnDelete(DeleteBehavior.Restrict);
     }
     

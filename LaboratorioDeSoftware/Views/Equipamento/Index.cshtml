@@ -34,9 +34,8 @@
                 <td>@(item.Disponivel ? "Sim" : "Não")</td>
                 <td>
                     <a asp-action="Detalhes" asp-route-id="@item.Id">Visualizar</a> |
-                    <a asp-action="Editar" asp-route-id="@item.Id">Editar</a> |
-                    <a asp-action="Deletar" asp-route-id="@item.Id">Remover</a>
-                    
+                    <a asp-action="Editar" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a> |
+                    <a asp-action="Deletar" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Excluir</a>
                 </td>
             </tr>
         }

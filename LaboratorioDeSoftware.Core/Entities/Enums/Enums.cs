@@ -49,5 +49,13 @@ namespace LaboratorioDeSoftware.Core.Entities.Enums
             [Description("Aprovado")]
             Aprovado = 1,
         }
+
+        public enum enStatusManutencoes
+        {
+            [Description("Reprovado")]
+            Reprovado = 0,
+            [Description("Aprovado")]
+            Aprovado = 1,
+        }
     }
 }
