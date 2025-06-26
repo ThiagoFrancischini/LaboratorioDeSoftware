@@ -13,7 +13,7 @@ namespace LaboratorioDeSoftware.Core.Services
         private readonly ProdutoRepository _produtoRepository;
         private readonly LaboratorioRepository _laboratorioRepository;
 
-        public EquipamentoService(AppDbContext context)
+        public EquipamentoService(AppDbContext context )
         {
             _context = context;
             _equipamentoRepository = new EquipamentoRepository(context);

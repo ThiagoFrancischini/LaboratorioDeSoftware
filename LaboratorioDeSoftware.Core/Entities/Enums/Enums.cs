@@ -57,5 +57,13 @@ namespace LaboratorioDeSoftware.Core.Entities.Enums
             [Description("Aprovado")]
             Aprovado = 1,
         }
+
+        public enum  enTipoEvento
+        {
+            [Description("Calibração")]
+            Calibracao = 0,
+            [Description("Manutenção")]
+            Manutencao = 1
+        }
     }
 }

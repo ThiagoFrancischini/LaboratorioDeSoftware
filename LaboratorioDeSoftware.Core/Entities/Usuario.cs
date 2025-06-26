@@ -37,6 +37,8 @@ namespace LaboratorioDeSoftware.Core.Entities
                 senha = Convert.ToBase64String(Encoding.UTF8.GetBytes(value));
             }
         }
+        public Guid? LaboratorioId { get; set; }
+        public Laboratorio Laboratorio { get; set; }
         public void Validar()
         {
             if(Id == Guid.Empty)

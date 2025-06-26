@@ -9,7 +9,7 @@ namespace LaboratorioDeSoftware.Core.Services
         private AppDbContext _context;
 
         private ProdutoRepository produtoRepository;
-        
+
         public ProdutoService(AppDbContext context)
         {
             _context = context;

@@ -15,6 +15,7 @@ public class LaboratorioService
     private AppDbContext _context;
     private LaboratorioRepository labRepository;
     private UsuarioRepository userRepository;
+
     public LaboratorioService(AppDbContext context)
     {
         _context = context;

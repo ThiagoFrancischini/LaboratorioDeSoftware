@@ -15,6 +15,7 @@ namespace LaboratorioDeSoftware.Core.Entities
         public Usuario Responsavel { get; set; }
         public string Observacao { get;set; }
         public ICollection<Equipamento> Equipamentos { get; set; } = new List<Equipamento>();
+        public ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
         public void Validar()
         {
             if (Id == Guid.Empty)

@@ -13,6 +13,7 @@ namespace LaboratorioDeSoftware.Core.Services
     {
         private AppDbContext _context;
         private UsuarioRepository userRepository;
+        private LaboratorioRepository laboratorioRepository;
         public UsuarioService(AppDbContext context)
         {
             _context = context;

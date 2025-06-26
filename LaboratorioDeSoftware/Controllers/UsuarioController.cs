@@ -3,6 +3,7 @@ using LaboratorioDeSoftware.Core.Entities;
 using LaboratorioDeSoftware.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using LaboratorioDeSoftware.Filters;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LaboratorioDeSoftware.Controllers;
 
@@ -10,10 +11,13 @@ namespace LaboratorioDeSoftware.Controllers;
 public class UsuarioController : Controller
 {
     private readonly UsuarioService _usuarioService;
+    private readonly LaboratorioService _laboratorioService;
 
     public UsuarioController(AppDbContext context)
     {
         _usuarioService = new UsuarioService(context);
+
+        _laboratorioService = new LaboratorioService(context);
     }
 
     public async Task<IActionResult> Index()
@@ -22,8 +26,12 @@ public class UsuarioController : Controller
         return View(usuarios);
     }
 
-    public IActionResult Cadastro()
+    public async Task<IActionResult> Cadastro()
     {
+        var laboratorios = await _laboratorioService.ProcurarTodos();
+
+        ViewBag.Laboratorios = new SelectList(laboratorios, "Id", "Nome");
+
         return View();
     }
 
@@ -51,7 +59,13 @@ public class UsuarioController : Controller
     public async Task<IActionResult> Editar(Guid id)
     {
         var usuario = await _usuarioService.ProcurarPorId(id);
+        
+        var laboratorios = await _laboratorioService.ProcurarTodos();
+
+        ViewBag.Laboratorios = new SelectList(laboratorios, "Id", "Nome");
+
         if (usuario == null) return NotFound();
+
         return View(usuario);
     }
 

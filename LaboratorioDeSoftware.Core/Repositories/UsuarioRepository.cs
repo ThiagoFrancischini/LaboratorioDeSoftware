@@ -56,6 +56,7 @@ namespace LaboratorioDeSoftware.Core.Repositories
             usuarioExistente.Telefone = usuarioAtualizado.Telefone;
             usuarioExistente.Cargo = usuarioAtualizado.Cargo;
             usuarioExistente.TipoUsuario = usuarioAtualizado.TipoUsuario;
+            usuarioExistente.LaboratorioId = usuarioAtualizado.LaboratorioId;
 
             if (!string.IsNullOrEmpty(usuarioAtualizado.Senha))
             {

@@ -10,4 +10,14 @@ public static class SessionTools {
 
         return true;
     }
+
+    public static Guid GetUserLogadoId(HttpContext context)
+    {
+        if(context == null || context.Session.GetString("UsuarioId") == null)
+        {
+            return Guid.Empty;
+        }
+
+        return Guid.Parse(context.Session.GetString("UsuarioId"));
+    }
 }

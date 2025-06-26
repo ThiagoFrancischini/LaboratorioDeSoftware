@@ -1,6 +1,7 @@
 using LaboratorioDeSoftware.Core.Data;
 using LaboratorioDeSoftware.Core.Entities;
 using LaboratorioDeSoftware.Core.Services;
+using LaboratorioDeSoftware.Tools;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LaboratorioDeSoftware.Controllers
@@ -11,6 +12,7 @@ namespace LaboratorioDeSoftware.Controllers
 
         public ProdutoController(AppDbContext _context)
         {
+
             _produtoService = new ProdutoService(_context);
         }
 

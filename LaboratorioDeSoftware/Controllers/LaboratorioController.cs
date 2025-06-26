@@ -1,6 +1,7 @@
 ﻿using LaboratorioDeSoftware.Core.Data;
 using LaboratorioDeSoftware.Core.Entities;
 using LaboratorioDeSoftware.Core.Services;
+using LaboratorioDeSoftware.Tools;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -26,7 +27,6 @@ namespace LaboratorioDeSoftware.Controllers
 
         public async Task<IActionResult> Cadastro()
         {
-            // Você precisará injetar o UsuarioService no controller
             var responsaveis = await _usuarioService.ProcurarTodos();
             ViewBag.Responsaveis = new SelectList(responsaveis, "Id", "Nome");
 

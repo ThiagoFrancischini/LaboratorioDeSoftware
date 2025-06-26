@@ -1,9 +1,33 @@
-﻿@{
+﻿@model IEnumerable<LaboratorioDeSoftware.Core.DTOs.EventoPendenteDTO>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Eventos Pendentes</h1>
-    
-    <p>Você não tem eventos pendentes!</object></p>
+<div>
+    <h1 class="display-4 text-center">Eventos Pendentes</h1>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="list-group">
+            @foreach (var aviso in Model)
+            {
+                string corAlerta = aviso.DiasFaltantes < 0 ? "list-group-item-danger" : (aviso.DiasFaltantes < 7 ? "list-group-item-warning" : "list-group-item-info");
+                string textoDias = aviso.DiasFaltantes < 0 ? $"Vencido há {-aviso.DiasFaltantes} dia(s)" : $"Faltam {aviso.DiasFaltantes} dia(s)";
+                string linha3 = aviso.TipoEvento == LaboratorioDeSoftware.Core.Entities.Enums.Enums.enTipoEvento.Calibracao ? "Próxima calibração prevista: " : "Próxima manutenção prevista: ";
+
+                <div class="list-group-item list-group-item-action flex-column align-items-start @corAlerta">
+                    <h5 class="mb-1">@aviso.NomeEquipamento</h5>                    
+                    <p class="mb-1">Localizado no laboratório: <strong>@aviso.NomeLaboratorio</strong>.</p>
+                    <p class="mb-1">@linha3<strong>@aviso.ProximoEventoPrevisto.ToString("dd/MM/yyyy")</strong></p>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success">
+            <i class="fas fa-check-circle"></i> Nenhum equipamento com pendências.
+        </div>
+    }
 </div>

@@ -66,6 +66,15 @@
                 </div>
             </div>
 
+            <div class="row mt-3">
+                <label asp-for="LaboratorioId" class="control-label">Laboratório*</label>
+                <select asp-for="LaboratorioId" class="form-control" asp-items="ViewBag.Laboratorios" required>
+                    <option value="">Selecione um laboratório</option>
+                </select>
+                <span asp-validation-for="LaboratorioId" class="text-danger"></span>
+            </div>
+
+
             <div class="form-group mt-4">
                 <button type="submit" class="btn btn-primary">Salvar Alterações</button>
                 <a asp-action="Index" class="btn btn-secondary ml-2">Voltar</a>

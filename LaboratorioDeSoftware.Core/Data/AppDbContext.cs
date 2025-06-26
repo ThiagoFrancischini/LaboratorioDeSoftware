@@ -24,6 +24,12 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Usuario>(entity =>
         {
             entity.HasKey(u => u.Id);
+
+            entity.HasOne(e => e.Laboratorio)
+                .WithMany(l => l.Usuarios)
+                .HasForeignKey(e => e.LaboratorioId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         modelBuilder.Entity<Laboratorio>(entity =>

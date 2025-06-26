@@ -9,11 +9,12 @@ namespace LaboratorioDeSoftware.Core.Services
     public class CalibracaoService
     {
         private readonly AppDbContext _context;
-        private readonly CalibracaoRepository _calibracaoRepository;  
+        private readonly CalibracaoRepository _calibracaoRepository;
+        private readonly Guid userId;
 
         public CalibracaoService(AppDbContext context)
         {
-            _context = context;
+            this._context = context;
             _calibracaoRepository = new CalibracaoRepository(context);
         }
 

@@ -8,7 +8,6 @@ namespace LaboratorioDeSoftware.Core.Services
     {
         private readonly AppDbContext _context;
         private readonly ManutencaoCorretivaRepository _manutencaoRepository;
-
         public ManutencaoCorretivaService(AppDbContext context)
         {
             _context = context;
