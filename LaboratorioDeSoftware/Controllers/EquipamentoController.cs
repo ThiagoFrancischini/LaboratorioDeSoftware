@@ -1,4 +1,5 @@
 using LaboratorioDeSoftware.Core.Data;
+using LaboratorioDeSoftware.Core.DTOs.Filtros;
 using LaboratorioDeSoftware.Core.Entities;
 using LaboratorioDeSoftware.Core.Services;
 using LaboratorioDeSoftware.Tools;
@@ -20,9 +21,15 @@ namespace LaboratorioDeSoftware.Controllers
             _laboratorioService = new LaboratorioService(context);
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var equipamentos = await _equipamentoService.ProcurarTodos();
+        public async Task<IActionResult> Index([FromQuery] EquipamentoFiltroDTO filtro)
+        {            
+            var laboratorios = await _laboratorioService.ProcurarTodos();            
+            ViewBag.Laboratorios = new SelectList(laboratorios, "Id", "Nome", filtro.LaboratorioId);
+            
+            var equipamentos = await _equipamentoService.ProcurarTodos(filtro);
+
+            ViewBag.FiltroAtual = filtro;
+
             return View(equipamentos);
         }
 

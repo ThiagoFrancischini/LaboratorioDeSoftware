@@ -38,7 +38,7 @@ namespace LaboratorioDeSoftware.Core.Services
             //SE FOR ADMIN BUSCA TODOS, SE NÃO SÓ OS DO SEU LABORATORIO
             if(user.TipoUsuario != Entities.Enums.Enums.enTipoUsuario.Administrador)
             {
-                equipamentosQuery.Where(e => e.LaboratorioId == user.LaboratorioId); 
+                equipamentosQuery = equipamentosQuery.Where(e => e.LaboratorioId == user.LaboratorioId); 
             }
 
             var equipamentos = await equipamentosQuery.ToListAsync();

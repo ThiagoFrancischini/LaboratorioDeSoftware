@@ -137,7 +137,7 @@ namespace LaboratorioDeSoftware.Controllers
 
         private async Task CarregarViewBags()
         {
-            var equipamentos = await _equipamentoService.ProcurarTodos();
+            var equipamentos = await _equipamentoService.ProcurarTodos(new Core.DTOs.Filtros.EquipamentoFiltroDTO());
 
             if (equipamentos == null || !equipamentos.Any())
             {

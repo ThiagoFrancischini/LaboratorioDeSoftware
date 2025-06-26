@@ -119,7 +119,7 @@ namespace LaboratorioDeSoftware.Controllers
 
         private async Task CarregarViewBags()
         {
-            var equipamentos = await _equipamentoService.ProcurarTodos();
+            var equipamentos = await _equipamentoService.ProcurarTodos(new Core.DTOs.Filtros.EquipamentoFiltroDTO());
             var listaEquipamentos = equipamentos.Select(e => new SelectListItem
             {
                 Value = e.Id.ToString(),

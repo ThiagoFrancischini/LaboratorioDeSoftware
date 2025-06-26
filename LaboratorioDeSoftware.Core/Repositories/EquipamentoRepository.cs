@@ -1,4 +1,5 @@
 using LaboratorioDeSoftware.Core.Data;
+using LaboratorioDeSoftware.Core.DTOs.Filtros;
 using LaboratorioDeSoftware.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,12 +7,23 @@ namespace LaboratorioDeSoftware.Core.Repositories
 {
     public class EquipamentoRepository(AppDbContext _context)
     {
-        public async Task<List<Equipamento>> ProcurarTodos()
+        public async Task<List<Equipamento>> ProcurarTodos(EquipamentoFiltroDTO filtro)
         {
-            return await _context.Equipamentos
+            IQueryable<Equipamento> query = _context.Equipamentos
                 .Include(e => e.Produto)
-                .Include(e => e.Laboratorio)
-                .ToListAsync();
+                .Include(e => e.Laboratorio);
+            
+            if(filtro.LaboratorioId != null && filtro.LaboratorioId.HasValue)
+            {
+                query = query.Where(x => x.LaboratorioId == filtro.LaboratorioId);
+            }
+
+            if(filtro.Disponivel != null)
+            {
+                query = query.Where(x => x.Disponivel == filtro.Disponivel);
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<Equipamento> ProcurarPorId(Guid id)

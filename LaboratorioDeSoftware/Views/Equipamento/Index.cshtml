@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Equipamentos";
+    var laboratorios = (SelectList)ViewBag.Laboratorios;
+    var filtroAtual = (LaboratorioDeSoftware.Core.DTOs.Filtros.EquipamentoFiltroDTO)ViewBag.FiltroAtual;
 }
 
 <h1>Equipamentos</h1>
@@ -9,6 +11,37 @@
 <p>
     <a asp-action="Cadastro" class="btn btn-primary">Adicionar Equipamento</a>
 </p>
+
+<form asp-action="Index" method="get" class="mb-4">
+    <div class="row **align-items-end**">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="LaboratorioId" class="form-label">Laboratório:</label>
+                <select name="LaboratorioId" id="LaboratorioId" class="form-control">
+                    <option value="">Todos</option>
+                    @foreach (var lab in laboratorios)
+                    {
+                        <option value="@lab.Value" selected="@(filtroAtual?.LaboratorioId == Guid.Parse(lab.Value))">
+                            @lab.Text
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group form-check **d-flex align-items-center**" style="min-height: 38px;">
+                <input type="checkbox" class="form-check-input" id="Disponivel" name="Disponivel" value="true"
+                @(filtroAtual?.Disponivel == true ? "checked" : "")>
+                <label class="form-check-label ms-2" for="Disponivel">Disponível</label>
+                <input type="hidden" name="Disponivel" value="false" />
+            </div>
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="submit" class="btn btn-info">Aplicar Filtros</button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">Limpar Filtros</a>
+        </div>
+    </div>
+</form>
 
 <table class="table">
     <thead>

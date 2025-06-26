@@ -1,4 +1,5 @@
 using LaboratorioDeSoftware.Core.Data;
+using LaboratorioDeSoftware.Core.DTOs.Filtros;
 using LaboratorioDeSoftware.Core.Entities;
 using LaboratorioDeSoftware.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -21,9 +22,9 @@ namespace LaboratorioDeSoftware.Core.Services
             _laboratorioRepository = new LaboratorioRepository(context);
         }
 
-        public async Task<List<Equipamento>> ProcurarTodos()
+        public async Task<List<Equipamento>> ProcurarTodos(EquipamentoFiltroDTO filtro)
         {
-            return await _equipamentoRepository.ProcurarTodos();
+            return await _equipamentoRepository.ProcurarTodos(filtro);
         }
 
         public async Task<Equipamento> ProcurarPorId(Guid id)
