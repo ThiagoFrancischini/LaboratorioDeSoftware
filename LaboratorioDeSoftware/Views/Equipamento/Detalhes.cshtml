@@ -118,4 +118,42 @@ else
     <div class="alert alert-info">Nenhuma calibração registrada.</div>
 }
 
+@if (Model.Manutencoes.Any())
+{
+    <h2 class="mb-3">Acompanhamento de Manutenções Corretivas</h2>
+    <table class="table table-striped table-bordered">
+        <thead class="table-light text-center">
+            <tr>
+                <th rowspan="2" class="align-middle">Data do Problema Apresentado</th>
+                <th rowspan="2" class="align-middle">Problema Apresentado</th>
+                <th rowspan="2" class="text-center">Data do Retorno</th>
+                <th rowspan="2" class="text-center">Estado de Retorno</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var man in Model.Manutencoes.OrderByDescending(c => c.DataProblemaApresentado))
+            {
+                <tr>
+                    <td class="text-center">
+                        @man.DataProblemaApresentado
+                    </td>
+                    <td class="text-center">
+                        @man.ProblemaApresentado
+                    </td>
+                    <td class="text-center">
+                        @man.DataRetorno
+                    </td>
+                    <td class="text-center">
+                        @man.EstadoRetorno
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info">Nenhuma Manutenção registrada.</div>
+}
+
 <a asp-action="Index" class="btn btn-secondary mt-4">Voltar</a>

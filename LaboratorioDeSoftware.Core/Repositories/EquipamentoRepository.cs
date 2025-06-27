@@ -33,6 +33,7 @@ namespace LaboratorioDeSoftware.Core.Repositories
                 .Include(e => e.Laboratorio)
                 .Include(e => e.Tags)
                 .Include(e => e.Calibracoes)
+                .Include(e => e.Manutencoes)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
 
