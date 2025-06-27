@@ -3,17 +3,19 @@ using LaboratorioDeSoftware.Core.Entities;
 using LaboratorioDeSoftware.Core.Services;
 using LaboratorioDeSoftware.Tools;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LaboratorioDeSoftware.Controllers
 {
     public class ProdutoController : Controller
     {
         private ProdutoService _produtoService;
+        private CategoriaItemService _categoriaService;
 
         public ProdutoController(AppDbContext _context)
         {
-
             _produtoService = new ProdutoService(_context);
+            _categoriaService = new CategoriaItemService(_context);
         }
 
         public async Task<IActionResult> Index()
@@ -24,6 +26,8 @@ namespace LaboratorioDeSoftware.Controllers
 
         public async Task<IActionResult> Cadastro()
         {
+            ViewBag.Categorias = new SelectList(await _categoriaService.ProcurarTodos(), "Id", "Descricao");
+
             return View(new Produto());
         }
 
@@ -33,11 +37,10 @@ namespace LaboratorioDeSoftware.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    await _produtoService.Inserir(produto);
-                    return RedirectToAction(nameof(Index));
-                }
+                
+                await _produtoService.Inserir(produto);
+                return RedirectToAction(nameof(Index));
+                
             }
             catch (ApplicationException ex)
             {
@@ -50,6 +53,7 @@ namespace LaboratorioDeSoftware.Controllers
         [HttpGet]
     public async Task<IActionResult> Editar(Guid id)
     {
+        ViewBag.Categorias = new SelectList(await _categoriaService.ProcurarTodos(), "Id", "Descricao");
         var usuario = await _produtoService.ProcurarPorId(id);
         if (usuario == null) return NotFound();
         return View(usuario);

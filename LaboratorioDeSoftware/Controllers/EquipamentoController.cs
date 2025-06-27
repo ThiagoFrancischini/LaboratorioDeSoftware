@@ -13,12 +13,14 @@ namespace LaboratorioDeSoftware.Controllers
         private readonly EquipamentoService _equipamentoService;
         private readonly ProdutoService _produtoService;
         private readonly LaboratorioService _laboratorioService;
+        private readonly CategoriaItemService _categoriaItemService;
 
         public EquipamentoController(AppDbContext context)
         {
             _equipamentoService = new EquipamentoService(context);
             _produtoService = new ProdutoService(context);
             _laboratorioService = new LaboratorioService(context);
+            _categoriaItemService = new CategoriaItemService(context);
         }
 
         public async Task<IActionResult> Index([FromQuery] EquipamentoFiltroDTO filtro)
@@ -71,6 +73,7 @@ namespace LaboratorioDeSoftware.Controllers
             try
             {
                 await _equipamentoService.Inserir(equipamento);
+                
                 return RedirectToAction(nameof(Index));
             }
             catch(Exception ex)

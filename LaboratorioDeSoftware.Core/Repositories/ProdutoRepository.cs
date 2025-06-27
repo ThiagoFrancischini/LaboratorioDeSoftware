@@ -35,6 +35,7 @@ namespace ProdutoDeSoftware.Core.Repositories
             produtoExistente.Modelo = produto.Modelo;
             produtoExistente.TipoProduto = produto.TipoProduto;
             produtoExistente.Observacoes = produto.Observacoes;
+            produtoExistente.CategoriaId = produto.CategoriaId;
 
             await _context.SaveChangesAsync();
             return produtoExistente;

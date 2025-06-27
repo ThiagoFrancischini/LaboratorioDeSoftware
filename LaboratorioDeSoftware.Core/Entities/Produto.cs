@@ -10,6 +10,8 @@ namespace LaboratorioDeSoftware.Core.Entities
         public string Modelo { get; set; }
         public enTipoProduto TipoProduto { get; set; }
         public string Observacoes { get; set; }
+        public Guid CategoriaId { get; set; }
+        public CategoriaItem Categoria { get; set; } 
         public ICollection<Equipamento> Equipamentos { get; set; } = new List<Equipamento>();
         public void Validar()
         {
