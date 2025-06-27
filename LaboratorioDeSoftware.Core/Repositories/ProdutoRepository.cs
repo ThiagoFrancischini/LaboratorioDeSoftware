@@ -1,4 +1,5 @@
 using LaboratorioDeSoftware.Core.Data;
+using LaboratorioDeSoftware.Core.DTOs.Filtros;
 using LaboratorioDeSoftware.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,9 +7,32 @@ namespace ProdutoDeSoftware.Core.Repositories
 {
     public class ProdutoRepository(AppDbContext _context)
     {
-        public async Task<List<Produto>> ProcurarTodos()
+        public async Task<List<Produto>> ProcurarTodos(ProdutoFiltroDTO filtro)
         {
-            return await _context.Produtos.OrderBy(x => x.Modelo).ToListAsync();
+            IQueryable<Produto> query = _context.Produtos
+                .Include(p => p.Categoria);
+            
+            if (!string.IsNullOrWhiteSpace(filtro.Nome))
+            {
+                query = query.Where(p => p.Nome.ToUpper().Contains(filtro.Nome.ToUpper()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(filtro.MarcaFabricante))
+            {
+                query = query.Where(p => p.MarcaFabricante.ToUpper().Contains(filtro.MarcaFabricante.ToUpper()));
+            }
+
+            if (!string.IsNullOrWhiteSpace(filtro.Modelo))
+            {
+                query = query.Where(p => p.Modelo.ToUpper().Contains(filtro.Modelo.ToUpper()));
+            }
+
+            if (filtro.CategoriaId.HasValue && filtro.CategoriaId.Value != Guid.Empty)
+            {
+                query = query.Where(p => p.CategoriaId == filtro.CategoriaId.Value);
+            }
+
+            return await query.OrderBy(x => x.Modelo).ToListAsync();
         }
 
         public async Task<Produto> ProcurarPorId(Guid id)

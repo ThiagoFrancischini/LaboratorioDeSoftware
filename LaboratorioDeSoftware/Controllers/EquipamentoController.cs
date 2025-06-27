@@ -24,10 +24,13 @@ namespace LaboratorioDeSoftware.Controllers
         }
 
         public async Task<IActionResult> Index([FromQuery] EquipamentoFiltroDTO filtro)
-        {            
-            var laboratorios = await _laboratorioService.ProcurarTodos();            
+        {
+            var laboratorios = await _laboratorioService.ProcurarTodos();
             ViewBag.Laboratorios = new SelectList(laboratorios, "Id", "Nome", filtro.LaboratorioId);
-            
+
+            var categorias = await _categoriaItemService.ProcurarTodos();
+            ViewBag.Categorias = new SelectList(categorias, "Id", "Descricao", filtro.CategoriaId);
+
             var equipamentos = await _equipamentoService.ProcurarTodos(filtro);
 
             ViewBag.FiltroAtual = filtro;
@@ -169,7 +172,7 @@ namespace LaboratorioDeSoftware.Controllers
 
         private async Task CarregarViewBags()
         {
-            var produtos = await _produtoService.ProcurarTodos();
+            var produtos = await _produtoService.ProcurarTodos(new ProdutoFiltroDTO());
             var laboratorios = await _laboratorioService.ProcurarTodos();
 
             ViewBag.Produtos = new SelectList(produtos, "Id", "Nome");

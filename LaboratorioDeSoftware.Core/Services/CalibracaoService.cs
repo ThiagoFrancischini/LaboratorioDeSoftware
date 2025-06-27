@@ -1,4 +1,5 @@
 using LaboratorioDeSoftware.Core.Data;
+using LaboratorioDeSoftware.Core.DTOs.Filtros;
 using LaboratorioDeSoftware.Core.Entities;
 using LaboratorioDeSoftware.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -18,9 +19,9 @@ namespace LaboratorioDeSoftware.Core.Services
             _calibracaoRepository = new CalibracaoRepository(context);
         }
 
-        public async Task<List<Calibracao>> ProcurarTodos()
+        public async Task<List<Calibracao>> ProcurarTodos(EventoFiltroDTO filtro)
         {
-            return await _calibracaoRepository.ProcurarTodos();
+            return await _calibracaoRepository.ProcurarTodos(filtro);
         }
 
         public async Task<Calibracao> ProcurarPorId(Guid id)

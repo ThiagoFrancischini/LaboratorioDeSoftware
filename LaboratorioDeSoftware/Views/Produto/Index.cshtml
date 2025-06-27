@@ -1,7 +1,12 @@
 @model IEnumerable<LaboratorioDeSoftware.Core.Entities.Produto>
 
+@using LaboratorioDeSoftware.Core.DTOs.Filtros
+@using Microsoft.AspNetCore.Mvc.Rendering
+
 @{
     ViewData["Title"] = "Itens";
+    var categorias = (SelectList)ViewBag.Categorias;
+    var filtroAtual = (ProdutoFiltroDTO)ViewBag.FiltroAtual;
 }
 
 <h1>Itens</h1>
@@ -10,12 +15,63 @@
     <a asp-action="Cadastro" class="btn btn-primary">Adicionar um Item</a>
 </p>
 
+<form asp-action="Index" method="get" class="mb-4">
+    <div class="row align-items-end">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="Nome" class="form-label">Nome:</label>
+                <input type="text" class="form-control" id="Nome" name="Nome"
+                       value="@filtroAtual?.Nome" placeholder="Nome do produto...">
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="MarcaFabricante" class="form-label">Marca/Fabricante:</label>
+                <input type="text" class="form-control" id="MarcaFabricante" name="MarcaFabricante"
+                       value="@filtroAtual?.MarcaFabricante" placeholder="Marca ou fabricante...">
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="Modelo" class="form-label">Modelo:</label>
+                <input type="text" class="form-control" id="Modelo" name="Modelo"
+                       value="@filtroAtual?.Modelo" placeholder="Modelo do produto...">
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="CategoriaId" class="form-label">Categoria:</label>
+                <select name="CategoriaId" id="CategoriaId" class="form-control">
+                    <option value="">Todas</option>
+                    @foreach (var cat in categorias)
+                    {
+                        <option value="@cat.Value" selected="@(filtroAtual?.CategoriaId == Guid.Parse(cat.Value))">
+                            @cat.Text
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12 d-flex justify-content-end">
+            <button type="submit" class="btn btn-info">Aplicar Filtros</button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">Limpar Filtros</a>
+        </div>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>Nome</th>
             <th>Marca Fabricante</th>
             <th>Modelo</th>
+            <th>Categoria</th> 
             <th>Observações</th>
             <th></th>
         </tr>
@@ -27,6 +83,7 @@
                 <td>@Html.DisplayFor(modelItem => item.Nome)</td>
                 <td>@Html.DisplayFor(modelItem => item.MarcaFabricante)</td>
                 <td>@Html.DisplayFor(modelItem => item.Modelo)</td>
+                <td>@Html.DisplayFor(modelItem => item.Categoria.Descricao)</td> 
                 <td>@Html.DisplayFor(modelItem => item.Observacoes)</td>
                 <td>
                     <a asp-action="Editar" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a> |

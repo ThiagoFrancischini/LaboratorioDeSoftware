@@ -1,4 +1,5 @@
 using LaboratorioDeSoftware.Core.Data;
+using LaboratorioDeSoftware.Core.DTOs.Filtros;
 using LaboratorioDeSoftware.Core.Entities;
 using LaboratorioDeSoftware.Core.Services;
 using LaboratorioDeSoftware.Tools;
@@ -18,9 +19,15 @@ namespace LaboratorioDeSoftware.Controllers
             _categoriaService = new CategoriaItemService(_context);
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var produtos = await _produtoService.ProcurarTodos();
+        public async Task<IActionResult> Index([FromQuery] ProdutoFiltroDTO filtro)
+        {            
+            var categorias = await _categoriaService.ProcurarTodos();
+            ViewBag.Categorias = new SelectList(categorias, "Id", "Descricao", filtro.CategoriaId);
+            
+            var produtos = await _produtoService.ProcurarTodos(filtro);
+            
+            ViewBag.FiltroAtual = filtro;
+
             return View(produtos);
         }
 

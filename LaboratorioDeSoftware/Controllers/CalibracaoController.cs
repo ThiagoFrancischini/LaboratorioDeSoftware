@@ -1,4 +1,5 @@
 using LaboratorioDeSoftware.Core.Data;
+using LaboratorioDeSoftware.Core.DTOs.Filtros;
 using LaboratorioDeSoftware.Core.Entities;
 using LaboratorioDeSoftware.Core.Services;
 using LaboratorioDeSoftware.Tools;
@@ -11,16 +12,24 @@ namespace LaboratorioDeSoftware.Controllers
     {
         private readonly CalibracaoService _calibracaoService;
         private readonly EquipamentoService _equipamentoService;
+        private readonly LaboratorioService _laboratorioService;
 
         public CalibracaoController(AppDbContext context)
         {
             _calibracaoService = new CalibracaoService(context);
             _equipamentoService = new EquipamentoService(context);
+            _laboratorioService = new LaboratorioService(context);
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] EventoFiltroDTO filtro) 
         {
-            var calibracoes = await _calibracaoService.ProcurarTodos();
+            var laboratorios = await _laboratorioService.ProcurarTodos();
+            ViewBag.Laboratorios = new SelectList(laboratorios, "Id", "Nome", filtro.LaboratorioId);
+         
+            var calibracoes = await _calibracaoService.ProcurarTodos(filtro);
+            
+            ViewBag.FiltroAtual = filtro;
+
             return View(calibracoes);
         }
 

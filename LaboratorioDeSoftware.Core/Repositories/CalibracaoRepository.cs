@@ -1,4 +1,5 @@
 using LaboratorioDeSoftware.Core.Data;
+using LaboratorioDeSoftware.Core.DTOs.Filtros;
 using LaboratorioDeSoftware.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,11 +7,33 @@ namespace LaboratorioDeSoftware.Core.Repositories
 {
     public class CalibracaoRepository(AppDbContext _context)
     {
-        public async Task<List<Calibracao>> ProcurarTodos()
+        public async Task<List<Calibracao>> ProcurarTodos(EventoFiltroDTO filtro)
         {
-            return await _context.Calibracoes
-                .Include(e => e.Equipamento)
-                .ToListAsync();
+            IQueryable<Calibracao> query = _context.Calibracoes
+                .Include(c => c.Equipamento)
+                    .ThenInclude(e => e.Laboratorio);
+            
+            if (!string.IsNullOrWhiteSpace(filtro.Nome))
+            {
+                query = query.Where(c => c.Equipamento != null && c.Equipamento.Nome.ToUpper().Contains(filtro.Nome.ToUpper()));
+            }
+            
+            if (filtro.LaboratorioId.HasValue && filtro.LaboratorioId.Value != Guid.Empty)
+            {
+                query = query.Where(c => c.Equipamento != null && c.Equipamento.LaboratorioId == filtro.LaboratorioId.Value);
+            }
+            
+            if (filtro.DataInicio.HasValue)
+            {
+                query = query.Where(c => c.DataCalibracao >= filtro.DataInicio.Value);
+            }
+            
+            if (filtro.DataFim.HasValue)
+            {
+                query = query.Where(c => c.DataCalibracao <= filtro.DataFim.Value);
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<Calibracao> ProcurarPorId(Guid id)

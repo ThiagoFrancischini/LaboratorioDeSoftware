@@ -11,16 +11,27 @@ namespace LaboratorioDeSoftware.Core.Repositories
         {
             IQueryable<Equipamento> query = _context.Equipamentos
                 .Include(e => e.Produto)
+                    .ThenInclude(p => p.Categoria)
                 .Include(e => e.Laboratorio);
             
-            if(filtro.LaboratorioId != null && filtro.LaboratorioId.HasValue)
+            if (filtro.LaboratorioId.HasValue && filtro.LaboratorioId.Value != Guid.Empty)
             {
-                query = query.Where(x => x.LaboratorioId == filtro.LaboratorioId);
+                query = query.Where(x => x.LaboratorioId == filtro.LaboratorioId.Value);
             }
-
-            if(filtro.Disponivel != null)
+            
+            if (filtro.Disponivel != DisponibilidadeFiltro.Todos)
             {
-                query = query.Where(x => x.Disponivel == filtro.Disponivel);
+                query = query.Where(x => x.Disponivel == (filtro.Disponivel == DisponibilidadeFiltro.Sim));                
+            }
+            
+            if (!string.IsNullOrWhiteSpace(filtro.NomeEquipamento))
+            {
+                query = query.Where(x => x.Nome.ToUpper().Contains(filtro.NomeEquipamento.ToUpper()));
+            }
+            
+            if (filtro.CategoriaId.HasValue && filtro.CategoriaId.Value != Guid.Empty)
+            {
+                query = query.Where(x => x.Produto != null && x.Produto.CategoriaId == filtro.CategoriaId.Value);
             }
 
             return await query.ToListAsync();

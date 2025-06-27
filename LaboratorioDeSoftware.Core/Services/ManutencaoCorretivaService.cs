@@ -1,5 +1,7 @@
 ﻿using LaboratorioDeSoftware.Core.Data;
-using LaboratorioDeSoftware.Core.Entities;using LaboratorioDeSoftware.Core.Repositories;
+using LaboratorioDeSoftware.Core.DTOs.Filtros;
+using LaboratorioDeSoftware.Core.Entities;
+using LaboratorioDeSoftware.Core.Repositories;
 using static LaboratorioDeSoftware.Core.Entities.Enums.Enums;
 
 namespace LaboratorioDeSoftware.Core.Services
@@ -14,9 +16,9 @@ namespace LaboratorioDeSoftware.Core.Services
             _manutencaoRepository = new ManutencaoCorretivaRepository(context);
         }
 
-        public async Task<List<ManutencaoCorretiva>> ProcurarTodos()
+        public async Task<List<ManutencaoCorretiva>> ProcurarTodos(EventoFiltroDTO filtro)
         {
-            return await _manutencaoRepository.ProcurarTodos();
+            return await _manutencaoRepository.ProcurarTodos(filtro);
         }
 
         public async Task<ManutencaoCorretiva> ProcurarPorId(Guid id)

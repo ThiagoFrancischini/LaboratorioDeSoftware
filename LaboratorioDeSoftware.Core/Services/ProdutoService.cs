@@ -1,4 +1,5 @@
 using LaboratorioDeSoftware.Core.Data;
+using LaboratorioDeSoftware.Core.DTOs.Filtros;
 using LaboratorioDeSoftware.Core.Entities;
 using ProdutoDeSoftware.Core.Repositories;
 
@@ -16,9 +17,9 @@ namespace LaboratorioDeSoftware.Core.Services
             produtoRepository = new ProdutoRepository(context);
         }
 
-        public async Task<List<Produto>> ProcurarTodos()
+        public async Task<List<Produto>> ProcurarTodos(ProdutoFiltroDTO filtro)
         {
-            return await produtoRepository.ProcurarTodos();
+            return await produtoRepository.ProcurarTodos(filtro);
         }
 
         public async Task<Produto> ProcurarPorId(Guid id)

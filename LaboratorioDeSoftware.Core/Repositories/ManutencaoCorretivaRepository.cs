@@ -1,4 +1,5 @@
 ﻿using LaboratorioDeSoftware.Core.Data;
+using LaboratorioDeSoftware.Core.DTOs.Filtros;
 using LaboratorioDeSoftware.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,11 +7,33 @@ namespace LaboratorioDeSoftware.Core.Repositories
 {
     public class ManutencaoCorretivaRepository(AppDbContext _context)
     {
-        public async Task<List<ManutencaoCorretiva>> ProcurarTodos()
+        public async Task<List<ManutencaoCorretiva>> ProcurarTodos(EventoFiltroDTO filtro)
         {
-            return await _context.ManutencoesCorretivas
+            IQueryable<ManutencaoCorretiva> query = _context.ManutencoesCorretivas
                 .Include(m => m.Equipamento)
-                .ToListAsync();
+                    .ThenInclude(e => e.Laboratorio);
+
+            if (!string.IsNullOrWhiteSpace(filtro.Nome))
+            {
+                query = query.Where(m => m.Equipamento != null && m.Equipamento.Nome.ToUpper().Contains(filtro.Nome.ToUpper()));
+            }
+
+            if (filtro.LaboratorioId.HasValue && filtro.LaboratorioId.Value != Guid.Empty)
+            {
+                query = query.Where(m => m.Equipamento != null && m.Equipamento.LaboratorioId == filtro.LaboratorioId.Value);
+            }
+            
+            if (filtro.DataInicio.HasValue)
+            {
+                query = query.Where(m => m.DataProblemaApresentado >= filtro.DataInicio.Value);
+            }
+           
+            if (filtro.DataFim.HasValue)
+            {
+                query = query.Where(m => m.DataProblemaApresentado <= filtro.DataFim.Value);
+            }            
+
+            return await query.ToListAsync();
         }
 
         public async Task<ManutencaoCorretiva> ProcurarPorId(Guid id)

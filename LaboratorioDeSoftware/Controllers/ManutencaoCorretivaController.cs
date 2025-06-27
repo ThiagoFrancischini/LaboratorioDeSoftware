@@ -1,4 +1,5 @@
 ﻿using LaboratorioDeSoftware.Core.Data;
+using LaboratorioDeSoftware.Core.DTOs.Filtros;
 using LaboratorioDeSoftware.Core.Entities;
 using LaboratorioDeSoftware.Core.Services;
 using LaboratorioDeSoftware.Tools;
@@ -12,16 +13,24 @@ namespace LaboratorioDeSoftware.Controllers
     {
         private readonly ManutencaoCorretivaService _manutencaoService;
         private readonly EquipamentoService _equipamentoService;
+        private readonly LaboratorioService _laboratorioService;
 
         public ManutencaoCorretivaController(AppDbContext context)
         {
             _manutencaoService = new ManutencaoCorretivaService(context);
             _equipamentoService = new EquipamentoService(context);
+            _laboratorioService = new LaboratorioService(context);
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] EventoFiltroDTO filtro)
         {
-            var manutencoes = await _manutencaoService.ProcurarTodos();
+            var laboratorios = await _laboratorioService.ProcurarTodos();
+            ViewBag.Laboratorios = new SelectList(laboratorios, "Id", "Nome", filtro.LaboratorioId);            
+
+            var manutencoes = await _manutencaoService.ProcurarTodos(filtro);
+
+            ViewBag.FiltroAtual = filtro;
+
             return View(manutencoes);
         }
 

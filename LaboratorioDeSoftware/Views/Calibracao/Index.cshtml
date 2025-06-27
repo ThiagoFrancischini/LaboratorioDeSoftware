@@ -1,23 +1,77 @@
 @model IEnumerable<LaboratorioDeSoftware.Core.Entities.Calibracao>
 
+@using LaboratorioDeSoftware.Core.DTOs.Filtros
+@using Microsoft.AspNetCore.Mvc.Rendering
+
 @{
-    ViewData["Title"] = "Calibracoes";
+    ViewData["Title"] = "Calibrações";
+    var laboratorios = (SelectList)ViewBag.Laboratorios;
+    var filtroAtual = (EventoFiltroDTO)ViewBag.FiltroAtual;
 }
 
 <h1>Calibrações</h1>
 
 <p>
-    <a asp-action="Cadastro" class="btn btn-primary">Cadastrar Calibração</a>
+    <a asp-action="Cadastro" class="btn btn-primary">Registrar Calibração</a>
 </p>
+
+<form asp-action="Index" method="get" class="mb-4">
+    <div class="row align-items-end">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="Nome" class="form-label">Nome do Equipamento:</label>
+                <input type="text" class="form-control" id="Nome" name="Nome"
+                       value="@filtroAtual?.Nome" placeholder="Nome do equipamento...">
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="LaboratorioId" class="form-label">Laboratório do Equipamento:</label>
+                <select name="LaboratorioId" id="LaboratorioId" class="form-control">
+                    <option value="">Todos</option>
+                    @foreach (var lab in laboratorios)
+                    {
+                        <option value="@lab.Value" selected="@(filtroAtual?.LaboratorioId == Guid.Parse(lab.Value))">
+                            @lab.Text
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="DataInicio" class="form-label">Data Início (Solicitação/Calibração):</label>
+                <input type="date" class="form-control" id="DataInicio" name="DataInicio"
+                       value="@(filtroAtual?.DataInicio?.ToString("yyyy-MM-dd"))">
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="DataFim" class="form-label">Data Fim (Solicitação/Calibração):</label>
+                <input type="date" class="form-control" id="DataFim" name="DataFim"
+                       value="@(filtroAtual?.DataFim?.ToString("yyyy-MM-dd"))">
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12 d-flex justify-content-end">
+            <button type="submit" class="btn btn-info">Aplicar Filtros</button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">Limpar Filtros</a>
+        </div>
+    </div>
+</form>
 
 <table class="table">
     <thead>
         <tr>
-            <th>Data Calibração</th>
-            <th>Equipamento</th>
-            <th>NumeroSolicitacao</th>
+            <th>Equipamento</th>            
+            <th>Data Calibração</th>            
             <th>Status</th>
-            <th>Observações</th>
+            <th>Número Solicitação</th>                                    
             <th></th>
         </tr>
     </thead>
@@ -25,11 +79,10 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>@Html.DisplayFor(modelItem => item.Equipamento.Nome)</td>                
                 <td>@Html.DisplayFor(modelItem => item.DataCalibracao)</td>
-                <td>@Html.DisplayFor(modelItem => item.Equipamento.Nome)</td>
-                <td>@Html.DisplayFor(modelItem => item.NumeroSolicitacao)</td>
                 <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                <td>@Html.DisplayFor(modelItem => item.Observacoes)</td>
+                <td>@Html.DisplayFor(modelItem => item.NumeroSolicitacao)</td>                                                
                 <td>
                     <a asp-action="Editar" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a> |
                     <a asp-action="Deletar" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Excluir</a>
