@@ -4,6 +4,7 @@ using LaboratorioDeSoftware.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using LaboratorioDeSoftware.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using LaboratorioDeSoftware.Tools;
 
 namespace LaboratorioDeSoftware.Controllers;
 
@@ -28,7 +29,9 @@ public class UsuarioController : Controller
 
     public async Task<IActionResult> Cadastro()
     {
-        var laboratorios = await _laboratorioService.ProcurarTodos();
+        Guid userId = SessionTools.GetUserLogadoId(HttpContext);
+
+        var laboratorios = await _laboratorioService.ProcurarTodos(userId);
 
         ViewBag.Laboratorios = new SelectList(laboratorios, "Id", "Nome");
 
@@ -37,15 +40,12 @@ public class UsuarioController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(Usuario usuario)
+    public async Task<IActionResult> Cadastro(Usuario usuario)
     {
         try
         {
-            if (ModelState.IsValid)
-            {
-                await _usuarioService.Registrar(usuario);
-                return RedirectToAction(nameof(Index));
-            }
+            await _usuarioService.Registrar(usuario);
+            return RedirectToAction(nameof(Index));
         }
         catch (ApplicationException ex)
         {
@@ -59,8 +59,10 @@ public class UsuarioController : Controller
     public async Task<IActionResult> Editar(Guid id)
     {
         var usuario = await _usuarioService.ProcurarPorId(id);
-        
-        var laboratorios = await _laboratorioService.ProcurarTodos();
+
+        Guid userId = SessionTools.GetUserLogadoId(HttpContext);
+
+        var laboratorios = await _laboratorioService.ProcurarTodos(userId);
 
         ViewBag.Laboratorios = new SelectList(laboratorios, "Id", "Nome");
 

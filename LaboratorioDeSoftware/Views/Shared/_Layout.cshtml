@@ -43,26 +43,31 @@
                 <a class="nav-link mb-2" asp-controller="Laboratorio" asp-action="Index">
                     <i class="bi bi-building-fill"></i> Laboratórios
                 </a>
-                <a class="nav-link mb-2" asp-controller="Produto" asp-action="Index">
-                    <i class="bi bi-box-seam-fill"></i> Itens
-                </a>
-                <a class="nav-link mb-2" asp-controller="CategoriaItem" asp-action="Index">
-                    <i class="bi bi-tags-fill"></i> Categorias
-                </a>
-                <a class="nav-link mb-2" asp-controller="Equipamento" asp-action="Index">
-                    <i class="bi bi-tools"></i> Equipamentos
-                </a>
-                <a class="nav-link mb-2" asp-controller="Calibracao" asp-action="Index">
-                    <i class="bi bi-speedometer2"></i> Calibrações
-                </a>
-                <a class="nav-link mb-2" asp-controller="ManutencaoCorretiva" asp-action="Index">
-                    <i class="bi bi-gear-wide-connected"></i> Manutenções
-                </a>
+            }
+            <a class="nav-link mb-2" asp-controller="Produto" asp-action="Index">
+                <i class="bi bi-box-seam-fill"></i> Itens
+            </a>
+            <a class="nav-link mb-2" asp-controller="CategoriaItem" asp-action="Index">
+                <i class="bi bi-tags-fill"></i> Categorias
+            </a>
+            <a class="nav-link mb-2" asp-controller="Equipamento" asp-action="Index">
+                <i class="bi bi-tools"></i> Equipamentos
+            </a>
+            <a class="nav-link mb-2" asp-controller="Calibracao" asp-action="Index">
+                <i class="bi bi-speedometer2"></i> Calibrações
+            </a>
+            <a class="nav-link mb-2" asp-controller="ManutencaoCorretiva" asp-action="Index">
+                <i class="bi bi-gear-wide-connected"></i> Manutenções
+            </a>
+
+            <a class="nav-link mb-2" asp-controller="Relatorio" asp-action="Index">
+                <i class="bi bi-bar-chart-line"></i> Relatórios
+            </a>
+
+            @if (SessionTools.IsUsuarioAdmin(Context))
+            {
                 <a class="nav-link mb-2" asp-controller="Configuracao" asp-action="Index">
                     <i class="bi bi-gear"></i> Configurações
-                </a>
-                <a class="nav-link mb-2" asp-controller="Relatorio" asp-action="Index">
-                    <i class="bi bi-bar-chart-line"></i> Relatórios
                 </a>
             }
 

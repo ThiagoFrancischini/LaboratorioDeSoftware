@@ -21,7 +21,9 @@ namespace LaboratorioDeSoftware.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var laboratorios = await _laboratorioService.ProcurarTodos();
+            Guid userId = SessionTools.GetUserLogadoId(HttpContext);
+
+            var laboratorios = await _laboratorioService.ProcurarTodos(userId);
             return View(laboratorios);
         }
 

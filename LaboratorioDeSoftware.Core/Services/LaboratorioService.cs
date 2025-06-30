@@ -23,9 +23,11 @@ public class LaboratorioService
         userRepository = new UsuarioRepository(context);
     }
 
-    public async Task<List<Laboratorio>> ProcurarTodos()
+    public async Task<List<Laboratorio>> ProcurarTodos(Guid userId)
     {
-        return await labRepository.ProcurarTodos();
+        var user = await userRepository.ProcurarPorId(userId);
+
+        return await labRepository.ProcurarTodos(user);
     }
 
     public async Task<Laboratorio> ProcurarPorId(Guid id)

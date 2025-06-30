@@ -10,14 +10,26 @@ namespace LaboratorioDeSoftware.Core.Services
     {
         private readonly AppDbContext _context;
         private readonly ManutencaoCorretivaRepository _manutencaoRepository;
+        private readonly UsuarioRepository  _userRepository;
         public ManutencaoCorretivaService(AppDbContext context)
         {
             _context = context;
             _manutencaoRepository = new ManutencaoCorretivaRepository(context);
+            _userRepository = new UsuarioRepository(context);
         }
 
         public async Task<List<ManutencaoCorretiva>> ProcurarTodos(EventoFiltroDTO filtro)
         {
+            if (filtro.UsuarioId != null && filtro.UsuarioId != Guid.Empty)
+            {
+                var user = await _userRepository.ProcurarPorId(filtro.UsuarioId ?? Guid.Empty);
+
+                if (user.TipoUsuario != Entities.Enums.Enums.enTipoUsuario.Administrador)
+                {
+                    filtro.LaboratorioId = user.LaboratorioId;
+                }
+            }
+
             return await _manutencaoRepository.ProcurarTodos(filtro);
         }
 

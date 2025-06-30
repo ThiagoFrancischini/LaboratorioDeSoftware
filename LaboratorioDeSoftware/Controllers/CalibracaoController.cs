@@ -23,9 +23,14 @@ namespace LaboratorioDeSoftware.Controllers
 
         public async Task<IActionResult> Index([FromQuery] EventoFiltroDTO filtro) 
         {
-            var laboratorios = await _laboratorioService.ProcurarTodos();
+            Guid userId = SessionTools.GetUserLogadoId(HttpContext);
+
+            var laboratorios = await _laboratorioService.ProcurarTodos(userId);
+
             ViewBag.Laboratorios = new SelectList(laboratorios, "Id", "Nome", filtro.LaboratorioId);
-         
+
+            filtro.UsuarioId = userId;
+
             var calibracoes = await _calibracaoService.ProcurarTodos(filtro);
             
             ViewBag.FiltroAtual = filtro;
@@ -146,7 +151,12 @@ namespace LaboratorioDeSoftware.Controllers
 
         private async Task CarregarViewBags()
         {
-            var equipamentos = await _equipamentoService.ProcurarTodos(new Core.DTOs.Filtros.EquipamentoFiltroDTO());
+            var userId = SessionTools.GetUserLogadoId(HttpContext);
+
+            var equipamentos = await _equipamentoService.ProcurarTodos(new Core.DTOs.Filtros.EquipamentoFiltroDTO
+            {
+                UserId = userId
+            });
 
             if (equipamentos == null || !equipamentos.Any())
             {

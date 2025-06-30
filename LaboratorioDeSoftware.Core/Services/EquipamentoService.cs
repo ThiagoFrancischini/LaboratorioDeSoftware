@@ -13,6 +13,7 @@ namespace LaboratorioDeSoftware.Core.Services
         private readonly EquipamentoRepository _equipamentoRepository;
         private readonly ProdutoRepository _produtoRepository;
         private readonly LaboratorioRepository _laboratorioRepository;
+        private readonly UsuarioRepository _userRepository;
 
         public EquipamentoService(AppDbContext context )
         {
@@ -20,10 +21,21 @@ namespace LaboratorioDeSoftware.Core.Services
             _equipamentoRepository = new EquipamentoRepository(context);
             _produtoRepository = new ProdutoRepository(context);
             _laboratorioRepository = new LaboratorioRepository(context);
+            _userRepository = new UsuarioRepository(context);
         }
 
         public async Task<List<Equipamento>> ProcurarTodos(EquipamentoFiltroDTO filtro)
         {
+            if (filtro.UserId != null && filtro.UserId != Guid.Empty) 
+            {
+                var user = await _userRepository.ProcurarPorId(filtro.UserId ?? Guid.Empty);
+
+                if(user.TipoUsuario != Entities.Enums.Enums.enTipoUsuario.Administrador)
+                {
+                    filtro.LaboratorioId = user.LaboratorioId;
+                }
+            }
+
             return await _equipamentoRepository.ProcurarTodos(filtro);
         }
 

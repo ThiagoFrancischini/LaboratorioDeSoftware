@@ -19,6 +19,27 @@
                 </div>
             }
 
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="ProdutoId" class="control-label">Produto*</label>
+                        <select asp-for="ProdutoId" class="form-control" asp-items="ViewBag.Produtos" required>
+                            <option value="">Selecione um produto</option>
+                        </select>
+                        <span asp-validation-for="ProdutoId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="LaboratorioId" class="control-label">Laboratório*</label>
+                        <select asp-for="LaboratorioId" class="form-control" asp-items="ViewBag.Laboratorios" required>
+                            <option value="">Selecione um laboratório</option>
+                        </select>
+                        <span asp-validation-for="LaboratorioId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -39,27 +60,6 @@
                         <label asp-for="Num_Patrimonio" class="control-label">Nº Patrimônio*</label>
                         <input asp-for="Num_Patrimonio" class="form-control" required />
                         <span asp-validation-for="Num_Patrimonio" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label asp-for="ProdutoId" class="control-label">Produto*</label>
-                        <select asp-for="ProdutoId" class="form-control" asp-items="ViewBag.Produtos" required>
-                            <option value="">Selecione um produto</option>
-                        </select>
-                        <span asp-validation-for="ProdutoId" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label asp-for="LaboratorioId" class="control-label">Laboratório*</label>
-                        <select asp-for="LaboratorioId" class="form-control" asp-items="ViewBag.Laboratorios" required>
-                            <option value="">Selecione um laboratório</option>
-                        </select>
-                        <span asp-validation-for="LaboratorioId" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -177,44 +177,41 @@
             let tagIndex = 0;
 
             addTagBtn.addEventListener('click', function () {
-                const tagText = tagInput.value.trim();
-                if (tagText) {
-                    // Cria o elemento visual da tag (badge)
-                    const tagElement = document.createElement('span');
-                    // <-- MUDANÇA 1: Usando 'badge-light' para fundo claro e 'text-dark' para texto escuro.
-                    // <-- MUDANÇA 2: Adicionando classes de flexbox para alinhar o texto e o botão.
-                    tagElement.className = 'badge badge-light text-dark mr-2 p-2 d-inline-flex align-items-center';
+            const tagText = tagInput.value.trim();
+            if (tagText) {
+                const tagElement = document.createElement('span');
+                tagElement.className = 'badge badge-light text-dark mr-2 p-2 d-inline-flex align-items-center';
 
-                    const textNode = document.createTextNode(tagText);
+                const textNode = document.createTextNode(tagText);
 
-                    // Cria o botão de remover, agora com estilo de perigo (vermelho)
-                    const removeBtn = document.createElement('button');
-                    removeBtn.type = 'button';
-                    // <-- MUDANÇA 3: Usando classes de botão do Bootstrap para um visual melhor.
-                    removeBtn.className = 'btn btn-danger btn-sm ml-2 p-0 px-2';
-                    removeBtn.innerHTML = '<span aria-hidden="true">&times;</span>'; // O '×' para fechar
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.className = 'btn btn-danger btn-sm ml-2 p-0 px-2';
+                removeBtn.innerHTML = '<span aria-hidden="true">&times;</span>';
 
-                    // Cria o input hidden que será enviado para o controller (sem mudanças aqui)
-                    const hiddenInput = document.createElement('input');
-                    hiddenInput.type = 'hidden';
-                    hiddenInput.name = `Tags[${tagIndex}].Tag`;
-                    hiddenInput.value = tagText;
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = `Tags[0].Tag`;
+                hiddenInput.value = tagText;
 
-                    // Monta a tag com o texto, o botão e o input escondido
-                    tagElement.appendChild(textNode);
-                    tagElement.appendChild(removeBtn);
-                    tagElement.appendChild(hiddenInput);
+                tagElement.appendChild(textNode);
+                tagElement.appendChild(removeBtn);
+                tagElement.appendChild(hiddenInput);
 
-                    tagsContainer.appendChild(tagElement);
+                tagsContainer.appendChild(tagElement);
 
-                    // Evento para remover a tag
-                    removeBtn.addEventListener('click', function() {
-                        tagsContainer.removeChild(tagElement);
-                    });
+                removeBtn.addEventListener('click', function() {
+                    tagsContainer.removeChild(tagElement);
 
-                    tagInput.value = '';
+                    tagInput.disabled = false;
+                    addTagBtn.disabled = false;
                     tagInput.focus();
-                    tagIndex++;
+                });
+
+                tagInput.value = '';
+                tagInput.disabled = true;
+                addTagBtn.disabled = true;
+
                 }
             });
 
@@ -222,6 +219,19 @@
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     addTagBtn.click();
+                }
+            });
+
+            const produtoSelect = document.getElementById('ProdutoId');
+            const nomeInput = document.getElementById('Nome');
+
+            produtoSelect.addEventListener('change', function() {
+                const selectedOption = this.options[this.selectedIndex];
+
+                if (this.value) {
+                    nomeInput.value = selectedOption.text;
+                } else {
+                    nomeInput.value = '';
                 }
             });
         });

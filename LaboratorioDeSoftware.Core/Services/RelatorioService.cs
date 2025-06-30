@@ -17,15 +17,27 @@ namespace LaboratorioDeSoftware.Core.Services
     {
         private readonly AppDbContext _context;
         private readonly RelatorioRepository _relatorioRepository;
+        private readonly UsuarioRepository _userRepository;
 
         public RelatorioService(AppDbContext context)
         {
             _context = context;
             _relatorioRepository = new RelatorioRepository(context);
+            _userRepository = new UsuarioRepository(context);
         }
 
         public async Task<RelatorioDTO> BuscarRelatorio (RelatorioFiltroDTO filtro)
         {
+            if (filtro.UserId != null && filtro.UserId != Guid.Empty)
+            {
+                var user = await _userRepository.ProcurarPorId(filtro.UserId ?? Guid.Empty);
+
+                if (user.TipoUsuario != Entities.Enums.Enums.enTipoUsuario.Administrador)
+                {
+                    filtro.LaboratorioId = user.LaboratorioId;
+                }
+            }
+
             return await _relatorioRepository.BuscarRelatorio(filtro);
         }
     }

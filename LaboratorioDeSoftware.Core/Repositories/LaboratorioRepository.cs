@@ -1,5 +1,6 @@
 ﻿using LaboratorioDeSoftware.Core.Data;
 using LaboratorioDeSoftware.Core.Entities;
+using LaboratorioDeSoftware.Core.Entities.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,18 @@ namespace LaboratorioDeSoftware.Core.Repositories
 {
     public class LaboratorioRepository(AppDbContext _context)
     {
-        public async Task<List<Laboratorio>> ProcurarTodos()
+        public async Task<List<Laboratorio>> ProcurarTodos(Usuario usuario)
         {
-            return await _context.Laboratorios.Include(x => x.Responsavel).OrderBy(x => x.Nome).ToListAsync();
+            if(usuario.TipoUsuario == Enums.enTipoUsuario.Administrador)
+            {
+                return await _context.Laboratorios.Include(x => x.Responsavel).OrderBy(x => x.Nome).ToListAsync();
+            }
+
+            return await _context.Laboratorios
+                .Include(x => x.Responsavel)
+                .Where(x => x.Id == usuario.LaboratorioId)
+                .OrderBy(x => x.Nome)
+                .ToListAsync();
         }
 
         public async Task<Laboratorio> ProcurarPorId(Guid id)

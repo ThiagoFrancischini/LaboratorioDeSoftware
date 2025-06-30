@@ -12,5 +12,6 @@ namespace LaboratorioDeSoftware.Core.DTOs.Filtros
         public Guid? EquipamentoId { get; set; }
         public DateTime? DataInicio { get; set; }
         public DateTime? DataFim { get; set; }
+        public Guid? UserId { get;set; }
     }
 }

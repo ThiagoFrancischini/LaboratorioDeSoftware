@@ -30,10 +30,15 @@
             <div class="form-group">
                 <label for="LaboratorioId" class="form-label">Laboratório:</label>
                 <select name="LaboratorioId" id="LaboratorioId" class="form-control">
-                    <option value="">Todos</option>
+
+                    @if (laboratorios.Count() != 1)
+                    {
+                        <option value="">Todos</option>
+                    }
+
                     @foreach (var lab in laboratorios)
                     {
-                        <option value="@lab.Value" selected="@(filtroAtual?.LaboratorioId == Guid.Parse(lab.Value))">
+                        <option value="@lab.Value" selected="@(filtroAtual?.LaboratorioId == Guid.Parse(lab.Value) || laboratorios.Count() == 1)">
                             @lab.Text
                         </option>
                     }

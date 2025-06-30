@@ -37,6 +37,11 @@ namespace LaboratorioDeSoftware.Core.Entities
             {
                 throw new ApplicationException("Informe um responsavel valido!");
             }
+
+            if(this.Observacao == null)
+            {
+                this.Observacao = "";
+            }
         }
     }
 }

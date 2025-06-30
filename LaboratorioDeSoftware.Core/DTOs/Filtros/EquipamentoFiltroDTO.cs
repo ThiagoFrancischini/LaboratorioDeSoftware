@@ -20,5 +20,6 @@ namespace LaboratorioDeSoftware.Core.DTOs.Filtros
 
         public string? NomeEquipamento { get; set; }
         public Guid? CategoriaId { get; set; }
+        public Guid? UserId { get;set; }
     }    
 }

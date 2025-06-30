@@ -11,16 +11,28 @@ namespace LaboratorioDeSoftware.Core.Services
     {
         private readonly AppDbContext _context;
         private readonly CalibracaoRepository _calibracaoRepository;
+        private readonly UsuarioRepository _userRepository;
         private readonly Guid userId;
 
         public CalibracaoService(AppDbContext context)
         {
             this._context = context;
             _calibracaoRepository = new CalibracaoRepository(context);
+            _userRepository = new UsuarioRepository(context);
         }
 
         public async Task<List<Calibracao>> ProcurarTodos(EventoFiltroDTO filtro)
         {
+            if (filtro.UsuarioId != null && filtro.UsuarioId != Guid.Empty) 
+            {
+                var user = await _userRepository.ProcurarPorId(filtro.UsuarioId ?? Guid.Empty);
+
+                if(user.TipoUsuario != Entities.Enums.Enums.enTipoUsuario.Administrador)
+                {
+                    filtro.LaboratorioId = user.LaboratorioId;
+                }
+            }
+
             return await _calibracaoRepository.ProcurarTodos(filtro);
         }
 
